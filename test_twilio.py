@@ -6,14 +6,21 @@ load_dotenv()
 
 account_sid = os.getenv("TWILIO_ACCOUNT_SID")
 auth_token = os.getenv("TWILIO_AUTH_TOKEN")
+
+if not account_sid or not auth_token:
+    print("ERROR: Missing TWILIO_ACCOUNT_SID or TWILIO_AUTH_TOKEN in .env")
+    sys.exit(1)
+
 client = Client(account_sid, auth_token)
 
-# O número do Sandbox (geralmente +14155238886)
-from_whatsapp_number = 'whatsapp:+14155238886' 
+# Twilio WhatsApp Sandbox number
+from_whatsapp_number = os.getenv("TWILIO_WHATSAPP_NUMBER", 'whatsapp:+14155238886')
 
-# O SEU número (que você usou para mandar "oi")
-# Substitua pelo seu número se necessário, ou pegue do log anterior
-to_whatsapp_number = 'whatsapp:+5511996861402' 
+# Your WhatsApp number for testing
+to_whatsapp_number = os.getenv("TEST_WHATSAPP_NUMBER")
+if not to_whatsapp_number:
+    print("ERROR: Please set TEST_WHATSAPP_NUMBER in .env (format: whatsapp:+1234567890)")
+    sys.exit(1) 
 
 try:
     message = client.messages.create(

@@ -7,9 +7,19 @@ load_dotenv()
 
 account_sid = os.getenv("TWILIO_ACCOUNT_SID")
 auth_token = os.getenv("TWILIO_AUTH_TOKEN")
+
+if not account_sid or not auth_token:
+    print("ERROR: Missing TWILIO_ACCOUNT_SID or TWILIO_AUTH_TOKEN in .env")
+    sys.exit(1)
+
 client = Client(account_sid, auth_token)
 
-sid = "SM5f6ed763e24868c552c75f922b808d61" # New SID
+# Get message SID from environment variable or command line argument
+sid = os.getenv("MESSAGE_SID") or (sys.argv[1] if len(sys.argv) > 1 else None)
+if not sid:
+    print("Usage: python check_status.py <MESSAGE_SID>")
+    print("Or set MESSAGE_SID in .env")
+    sys.exit(1)
 
 try:
     message = client.messages(sid).fetch()
