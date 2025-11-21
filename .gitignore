@@ -8,3 +8,31 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Media files
+media/
+temp_*
+*.mp3
+*.ogg
+*.jpg
+*.png
+*.wav
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test files
+test_bot.py
+test_*.py

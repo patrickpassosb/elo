@@ -1,5 +1,7 @@
 import os
 import logging
+import asyncio
+import uuid
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
 from dotenv import load_dotenv
@@ -42,37 +44,45 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # 1. Process Input
         if update.message.voice:
             # Handle Voice
-            print(f"🎤 Recebido Áudio de {user_id}")
+            logging.info(f"🎤 Recebido Áudio de {user_id}")
             user_preferences[user_id] = 'audio'
             
-            # Download
-            new_file = await update.message.voice.get_file()
-            file_path = f"temp_{user_id}.ogg"
-            await new_file.download_to_drive(file_path)
+            # Download with unique filename
+            file_id = uuid.uuid4().hex[:8]
+            file_path = f"temp_{user_id}_{file_id}.ogg"
             
-            # Transcribe
-            user_input = transcribe_audio(file_path)
-            cleanup_file(file_path)
-            print(f"📝 Transcrição: {user_input}")
+            try:
+                new_file = await update.message.voice.get_file()
+                await new_file.download_to_drive(file_path)
+                
+                # Transcribe (run in thread to avoid blocking)
+                user_input = await asyncio.to_thread(transcribe_audio, file_path)
+                logging.info(f"📝 Transcrição: {user_input}")
+            finally:
+                cleanup_file(file_path)
 
         elif update.message.photo:
             # Handle Photo
-            print(f"📷 Recebido Foto de {user_id}")
+            logging.info(f"📷 Recebido Foto de {user_id}")
             
-            # Get the largest photo
-            photo_file = await update.message.photo[-1].get_file()
-            file_path = f"temp_{user_id}.jpg"
-            await photo_file.download_to_drive(file_path)
+            # Get the largest photo with unique filename
+            file_id = uuid.uuid4().hex[:8]
+            file_path = f"temp_{user_id}_{file_id}.jpg"
             
-            # Describe using GPT-4o Vision
-            user_input = describe_image_local(file_path)
-            cleanup_file(file_path)
-            print(f"🔍 Descrição: {user_input}")
+            try:
+                photo_file = await update.message.photo[-1].get_file()
+                await photo_file.download_to_drive(file_path)
+                
+                # Describe using GPT-4o Vision (run in thread)
+                user_input = await asyncio.to_thread(describe_image_local, file_path)
+                logging.info(f"🔍 Descrição: {user_input}")
+            finally:
+                cleanup_file(file_path)
 
         elif update.message.text:
             # Handle Text
             user_input = update.message.text
-            print(f"💬 Recebido Texto de {user_id}: {user_input}")
+            logging.info(f"💬 Recebido Texto de {user_id}: {user_input}")
             
             # Check for preference keywords
             lower_input = user_input.lower()
@@ -88,26 +98,29 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Send "typing" action
         await context.bot.send_chat_action(chat_id=update.effective_chat.id, action='typing')
         
-        response_text = process_message(user_id, user_input)
-        print(f"🤖 Resposta ELO: {response_text}")
+        # Run in thread to avoid blocking
+        response_text = await asyncio.to_thread(process_message, user_id, user_input)
+        logging.info(f"🤖 Resposta ELO: {response_text}")
 
         # 3. Generate Response
         if user_preferences[user_id] == 'audio':
             # Send voice response
             await context.bot.send_chat_action(chat_id=update.effective_chat.id, action='record_voice')
-            audio_path = text_to_speech(response_text)
             
-            with open(audio_path, 'rb') as audio_file:
-                await update.message.reply_voice(voice=audio_file)
-            cleanup_file(audio_path)
+            # Generate audio (run in thread)
+            audio_path = await asyncio.to_thread(text_to_speech, response_text)
+            
+            try:
+                with open(audio_path, 'rb') as audio_file:
+                    await update.message.reply_voice(voice=audio_file)
+            finally:
+                cleanup_file(audio_path)
         else:
             # Send text response
             await update.message.reply_text(response_text)
 
     except Exception as e:
-        print(f"❌ Erro: {e}")
-        import traceback
-        traceback.print_exc()
+        logging.error(f"❌ Erro: {e}", exc_info=True)
         await update.message.reply_text("Desculpe, tive um problema técnico. Pode tentar de novo? 🙏")
 
 if __name__ == '__main__':
@@ -125,6 +138,6 @@ if __name__ == '__main__':
     application.add_handler(start_handler)
     application.add_handler(msg_handler)
     
-    print("🤖 ELO Telegram Bot rodando...")
-    print("Pressione Ctrl+C para parar")
+    logging.info("🤖 ELO Telegram Bot rodando...")
+    logging.info("Pressione Ctrl+C para parar")
     application.run_polling()
