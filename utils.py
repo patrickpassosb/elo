@@ -1,116 +1,127 @@
 import os
 import requests
-from openai import OpenAI
-from dotenv import load_dotenv
 import base64
+import logging
+import tempfile
+from contextlib import contextmanager
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+from .config import settings
+from .logging_config import logger
+from openai import OpenAI
 
-load_dotenv()
+# Initialize OpenAI client with validated API key
+client = OpenAI(api_key=settings.openai_api_key)
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+@contextmanager
+def temporary_file(suffix: str = "") -> str:
+    """Create a temporary file that is automatically cleaned up.
+    Returns the file path as a string.
+    """
+    fd, path = tempfile.mkstemp(suffix=suffix)
+    os.close(fd)  # Close the low‑level descriptor
+    try:
+        yield path
+    finally:
+        try:
+            os.remove(path)
+            logger.debug(f"Temporary file removed: {path}")
+        except OSError:
+            pass
 
+@retry(retry=retry_if_exception_type(requests.RequestException),
+       wait=wait_exponential(multiplier=1, min=2, max=10),
+       stop=stop_after_attempt(3),
+       reraise=True)
 def download_media(media_url: str, file_extension: str) -> str:
+    """Download media from a URL and save it to a temporary file.
+    Returns the temporary file path. Raises on HTTP errors.
     """
-    Downloads media from a Twilio URL and saves it locally.
-    Returns the path to the saved file.
-    """
-    # Twilio requires basic auth if media protection is enabled, 
-    # but often the URL provided in the webhook is accessible directly 
-    # or contains a token. We'll try direct first, then auth if needed.
-    # For the hackathon context, we assume standard accessible URLs or 
-    # we would use TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN.
-    
     account_sid = os.getenv("TWILIO_ACCOUNT_SID")
     auth_token = os.getenv("TWILIO_AUTH_TOKEN")
-    
-    response = requests.get(media_url, auth=(account_sid, auth_token))
-    
-    if response.status_code == 200:
-        filename = f"temp_media_{os.urandom(4).hex()}.{file_extension}"
-        with open(filename, 'wb') as f:
+    response = requests.get(media_url, auth=(account_sid, auth_token), timeout=10)
+    response.raise_for_status()
+    with temporary_file(suffix=f".{file_extension}") as tmp_path:
+        with open(tmp_path, "wb") as f:
             f.write(response.content)
-        return filename
-    else:
-        raise Exception(f"Failed to download media: {response.status_code}")
+        return tmp_path
 
+@retry(retry=retry_if_exception_type(Exception),
+       wait=wait_exponential(multiplier=1, min=2, max=10),
+       stop=stop_after_attempt(3),
+       reraise=True)
 def transcribe_audio(file_path: str) -> str:
-    """
-    Transcribes audio using OpenAI Whisper (whisper-1).
-    """
+    """Transcribe audio using OpenAI Whisper (whisper-1)."""
     with open(file_path, "rb") as audio_file:
         transcription = client.audio.transcriptions.create(
-            model="whisper-1",
+            model=settings.whisper_model,
             file=audio_file
         )
     return transcription.text
 
+@retry(retry=retry_if_exception_type(Exception),
+       wait=wait_exponential(multiplier=1, min=2, max=10),
+       stop=stop_after_attempt(3),
+       reraise=True)
 def text_to_speech(text: str) -> str:
-    """
-    Converts text to speech using OpenAI TTS (tts-1).
-    Returns the path to the generated audio file.
-    """
+    """Convert text to speech using OpenAI TTS (tts-1)."""
     response = client.audio.speech.create(
-        model="tts-1",
-        voice="onyx", # Or 'nova' as requested
+        model=settings.tts_model,
+        voice=settings.tts_voice,
         input=text
     )
-    
-    output_filename = f"response_{os.urandom(4).hex()}.mp3"
-    response.stream_to_file(output_filename)
-    return output_filename
+    with temporary_file(suffix=".mp3") as tmp_path:
+        response.stream_to_file(tmp_path)
+        return tmp_path
 
-def cleanup_file(file_path: str):
-    """Removes a temporary file."""
+def cleanup_file(file_path: str) -> None:
+    """Remove a temporary file if it exists (fallback)."""
     if os.path.exists(file_path):
-        os.remove(file_path)
+        try:
+            os.remove(file_path)
+            logger.debug(f"Removed temporary file: {file_path}")
+        except Exception as e:
+            logger.warning(f"Failed to remove temporary file {file_path}: {e}")
 
+@retry(retry=retry_if_exception_type(Exception),
+       wait=wait_exponential(multiplier=1, min=2, max=10),
+       stop=stop_after_attempt(3),
+       reraise=True)
 def describe_image(image_url: str) -> str:
-    """
-    Uses GPT-4o to describe an image from a URL.
-    """
+    """Describe an image from a URL using GPT-4o vision model."""
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model=settings.llm_model,
         messages=[
             {
                 "role": "user",
                 "content": [
                     {"type": "text", "text": "Descreva detalhadamente o conteúdo desta imagem, focando em ler qualquer texto visível e explicar o contexto (ex: se é uma conta, uma carta, um aviso)."},
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": image_url,
-                        },
-                    },
+                    {"type": "image_url", "image_url": {"url": image_url}},
                 ],
             }
         ],
-        max_tokens=300,
+        max_tokens=settings.vision_max_tokens,
     )
     return response.choices[0].message.content
 
+@retry(retry=retry_if_exception_type(Exception),
+       wait=wait_exponential(multiplier=1, min=2, max=10),
+       stop=stop_after_attempt(3),
+       reraise=True)
 def describe_image_local(image_path: str) -> str:
-    """
-    Uses GPT-4o to describe a local image file (for Telegram).
-    Converts the image to base64 and sends to GPT-4o Vision.
-    """
+    """Describe a local image file using GPT-4o vision model."""
     with open(image_path, "rb") as image_file:
         base64_image = base64.b64encode(image_file.read()).decode('utf-8')
-
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model=settings.llm_model,
         messages=[
             {
                 "role": "user",
                 "content": [
                     {"type": "text", "text": "Descreva detalhadamente o conteúdo desta imagem, focando em ler qualquer texto visível e explicar o contexto (ex: se é uma conta, uma carta, um aviso)."},
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/jpeg;base64,{base64_image}",
-                        },
-                    },
+                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
                 ],
             }
         ],
-        max_tokens=300,
+        max_tokens=settings.vision_max_tokens,
     )
     return response.choices[0].message.content
