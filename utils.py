@@ -86,3 +86,31 @@ def describe_image(image_url: str) -> str:
         max_tokens=300,
     )
     return response.choices[0].message.content
+
+def describe_image_local(image_path: str) -> str:
+    """
+    Uses GPT-4o to describe a local image file (for Telegram).
+    Converts the image to base64 and sends to GPT-4o Vision.
+    """
+    with open(image_path, "rb") as image_file:
+        base64_image = base64.b64encode(image_file.read()).decode('utf-8')
+
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": "Descreva detalhadamente o conteúdo desta imagem, focando em ler qualquer texto visível e explicar o contexto (ex: se é uma conta, uma carta, um aviso)."},
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/jpeg;base64,{base64_image}",
+                        },
+                    },
+                ],
+            }
+        ],
+        max_tokens=300,
+    )
+    return response.choices[0].message.content
