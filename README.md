@@ -120,7 +120,12 @@ TELEGRAM_TOKEN=123456789:ABC...
 
 ```bash
 # Versão Telegram (recomendado)
-uv run telegram_app.py
+# Versão Telegram (recomendado)
+# Windows (PowerShell)
+$env:PYTHONPATH="src"; uv run python src/telegram_bot/bot.py
+
+# Linux/Mac
+PYTHONPATH=src uv run python src/telegram_bot/bot.py
 
 # Versão WhatsApp (branch master - requer Twilio)
 git checkout master
