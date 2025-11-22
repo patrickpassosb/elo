@@ -18,7 +18,7 @@ class _BaseStore:
         self.ttl = timedelta(hours=ttl_hours)
         self._store: OrderedDict[str, Any] = OrderedDict()
         self._timestamps: dict[str, datetime] = {}
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
 
     def _cleanup(self) -> None:
         """Remove expired entries and enforce size limit."""
