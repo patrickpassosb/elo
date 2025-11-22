@@ -124,7 +124,32 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         logger.error(f"❌ Erro Inesperado: {e}", exc_info=True)
         await update.message.reply_text("Desculpe, tive um problema técnico inesperado. Pode tentar de novo? 🙏")
 
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import threading
+
+# ... (existing imports)
+
+class HealthCheckHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
+    
+    def log_message(self, format, *args):
+        pass  # Silence logs
+
+def start_health_server():
+    """Starts a dummy HTTP server to satisfy Render's port binding requirement."""
+    port = int(os.environ.get("PORT", 8080))
+    server = HTTPServer(("0.0.0.0", port), HealthCheckHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    logger.info(f"🌍 Health check server running on port {port}")
+
 if __name__ == "__main__":
+    # Start the dummy server for Render
+    start_health_server()
+
     token = settings.telegram_token
     if not token:
         logger.error("❌ Erro: TELEGRAM_TOKEN não encontrado na configuração.")
