@@ -8,6 +8,7 @@ from langchain_core.chat_history import BaseChatMessageHistory
 from config import settings
 from logging_config import logger
 from storage import session_store
+from ai.legislative_prompts import SIMPLIFY_LAW_PROMPT, SUMMARIZE_BILL_PROMPT, EXPLAIN_ARTICLE_PROMPT
 
 # Store for session histories is now handled by SessionStore
 
@@ -69,3 +70,73 @@ async def process_message(session_id: str, user_input: str):
     except Exception as e:
         logger.error(f"Error processing message for session {session_id}: {e}", exc_info=True)
         return "Desculpe, tive um problema para pensar na resposta. Pode tentar de novo?"
+
+async def explain_law(law_text: str) -> str:
+    """
+    Simplifies legal text using the ELO "Neto Digital" persona.
+    
+    This function takes complex legal jargon and converts it into simple,
+    accessible Portuguese that anyone can understand.
+    
+    Args:
+        law_text (str): Raw legal text (article, law excerpt, bill text, etc.)
+        
+    Returns:
+        str: Simplified explanation in plain Portuguese
+        
+    Example:
+        >>> law = "Art. 1º Esta Lei estabelece normas gerais..."
+        >>> explanation = await explain_law(law)
+        >>> print(explanation)
+        "Olha, essa lei cria regras para..."
+    """
+    logger.info("Simplifying legal text")
+    try:
+        # Format the prompt with the law text
+        formatted_prompt = SIMPLIFY_LAW_PROMPT.format(law_text=law_text)
+        
+        # Use the LLM to generate the explanation
+        response = await llm.ainvoke(formatted_prompt)
+        
+        return response.content
+    except Exception as e:
+        logger.error(f"Error explaining law: {e}", exc_info=True)
+        return "Desculpe, tive dificuldade para simplificar esse texto. Pode tentar de novo ou me mandar em pedaços menores?"
+
+async def summarize_bill(bill_text: str) -> str:
+    """
+    Summarizes a bill (PL) in simple, accessible language.
+    
+    Args:
+        bill_text (str): Full or partial text of a bill/PL
+        
+    Returns:
+        str: Summary with key points and practical impact
+    """
+    logger.info("Summarizing bill")
+    try:
+        formatted_prompt = SUMMARIZE_BILL_PROMPT.format(bill_text=bill_text)
+        response = await llm.ainvoke(formatted_prompt)
+        return response.content
+    except Exception as e:
+        logger.error(f"Error summarizing bill: {e}", exc_info=True)
+        return "Desculpe, tive dificuldade para resumir esse projeto de lei. Pode tentar de novo?"
+
+async def explain_article(article_text: str) -> str:
+    """
+    Explains a specific article from a law in simple terms.
+    
+    Args:
+        article_text (str): Text of a specific article (e.g., "Art. 5º...")
+        
+    Returns:
+        str: Simple explanation of what the article means
+    """
+    logger.info("Explaining article")
+    try:
+        formatted_prompt = EXPLAIN_ARTICLE_PROMPT.format(article_text=article_text)
+        response = await llm.ainvoke(formatted_prompt)
+        return response.content
+    except Exception as e:
+        logger.error(f"Error explaining article: {e}", exc_info=True)
+        return "Desculpe, tive dificuldade para explicar esse artigo. Pode tentar de novo?"

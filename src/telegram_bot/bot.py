@@ -33,6 +33,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "🎤 Áudio - Eu respondo com áudio\n"
         "📝 Texto - Eu respondo com texto\n"
         "📷 Foto - Eu leio e explico o que tem nela\n\n"
+        "**Comandos especiais:**\n"
+        "/lei <tema> - Busco leis sobre um tema\n"
+        "/deputado <nome> - Informações sobre um deputado\n"
+        "/diario <cidade> <assunto> - Busco no Diário Oficial\n\n"
         "Estou aqui para te ajudar a entender documentos, leis e cartas!"
     )
 
@@ -124,6 +128,198 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         logger.error(f"❌ Erro Inesperado: {e}", exc_info=True)
         await update.message.reply_text("Desculpe, tive um problema técnico inesperado. Pode tentar de novo? 🙏")
 
+async def lei_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handler for /lei <tema> command - searches for laws about a topic."""
+    user_id = str(update.effective_user.id)
+    
+    # Check if user provided a topic
+    if not context.args:
+        await update.message.reply_text(
+            "Por favor, me diga sobre qual tema você quer saber! 📜\n\n"
+            "Exemplo: /lei educação"
+        )
+        return
+    
+    tema = " ".join(context.args)
+    
+    try:
+        await context.bot.send_chat_action(chat_id=update.effective_chat.id, action="typing")
+        
+        # Import here to avoid circular imports
+        from services.camara_api import get_proposicoes
+        
+        logger.info(f"🔍 Buscando leis sobre '{tema}' para usuário {user_id}")
+        proposicoes = await get_proposicoes(tema, limit=5)
+        
+        if not proposicoes:
+            await update.message.reply_text(
+                f"Não encontrei nenhum projeto de lei sobre '{tema}' 😔\n\n"
+                "Tente usar outras palavras-chave!"
+            )
+            return
+        
+        # Get the most recent one
+        pl = proposicoes[0]
+        
+        # Create a summary message
+        summary = (
+            f"🔍 Encontrei {len(proposicoes)} projetos sobre '{tema}'.\n"
+            f"Vou explicar o mais recente:\n\n"
+            f"📜 {pl['tipo']} {pl['numero']}/{pl['ano']}\n\n"
+        )
+        
+        # Use the brain to explain the law in simple terms
+        explanation_prompt = (
+            f"Explique de forma simples e clara o que é este projeto de lei:\n\n"
+            f"{pl['ementa']}\n\n"
+            f"Lembre-se de usar linguagem acessível para idosos."
+        )
+        
+        explanation = await process_message(user_id, explanation_prompt)
+        
+        full_message = summary + explanation
+        
+        # Add reaction buttons hint
+        full_message += "\n\n💡 Entendeu? Me mande uma mensagem se tiver dúvidas!"
+        
+        await update.message.reply_text(full_message)
+        
+    except Exception as e:
+        logger.error(f"❌ Erro no comando /lei: {e}", exc_info=True)
+        await update.message.reply_text(
+            "Desculpe, tive dificuldade para buscar as leis agora. "
+            "Pode tentar de novo em alguns instantes? 📚"
+        )
+
+async def deputado_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handler for /deputado <nome> command - searches for deputy information."""
+    user_id = str(update.effective_user.id)
+    
+    if not context.args:
+        await update.message.reply_text(
+            "Por favor, me diga o nome do deputado! 🏛️\n\n"
+            "Exemplo: /deputado Tabata Amaral"
+        )
+        return
+    
+    nome = " ".join(context.args)
+    
+    try:
+        await context.bot.send_chat_action(chat_id=update.effective_chat.id, action="typing")
+        
+        from services.camara_api import search_deputados, get_deputado
+        
+        logger.info(f"🔍 Buscando deputado '{nome}' para usuário {user_id}")
+        deputados = await search_deputados(nome, limit=3)
+        
+        if not deputados:
+            await update.message.reply_text(
+                f"Não encontrei nenhum deputado com o nome '{nome}' 😔\n\n"
+                "Verifique se escreveu corretamente!"
+            )
+            return
+        
+        # Get the first match
+        dep = deputados[0]
+        
+        # Fetch detailed info
+        dep_info = await get_deputado(dep['id'])
+        
+        if not dep_info:
+            await update.message.reply_text("Não consegui buscar as informações desse deputado. Tente novamente!")
+            return
+        
+        # Format the response
+        message = (
+            f"👤 **{dep_info['nome_parlamentar']}**\n\n"
+            f"🏛️ Partido: {dep_info['partido']}/{dep_info['estado']}\n"
+            f"📧 Email: {dep_info.get('email', 'Não disponível')}\n\n"
+        )
+        
+        # Add a simple explanation using the brain
+        explanation_prompt = (
+            f"Explique de forma simples quem é o deputado {dep_info['nome_parlamentar']} "
+            f"do partido {dep_info['partido']} do estado {dep_info['estado']}. "
+            f"Seja breve e use linguagem acessível."
+        )
+        
+        explanation = await process_message(user_id, explanation_prompt)
+        message += explanation
+        
+        await update.message.reply_text(message)
+        
+    except Exception as e:
+        logger.error(f"❌ Erro no comando /deputado: {e}", exc_info=True)
+        await update.message.reply_text(
+            "Desculpe, tive dificuldade para buscar informações do deputado. "
+            "Pode tentar de novo? 🏛️"
+        )
+
+async def diario_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handler for /diario <cidade> <assunto> command - searches official gazettes."""
+    user_id = str(update.effective_user.id)
+    
+    if len(context.args) < 2:
+        await update.message.reply_text(
+            "Por favor, me diga a cidade e o assunto! 📰\n\n"
+            "Exemplo: /diario São Paulo merenda escolar"
+        )
+        return
+    
+    # First arg is city, rest is the query
+    cidade = context.args[0]
+    assunto = " ".join(context.args[1:])
+    
+    try:
+        await context.bot.send_chat_action(chat_id=update.effective_chat.id, action="typing")
+        
+        from services.querido_diario_api import search_gazette
+        
+        logger.info(f"🔍 Buscando '{assunto}' no diário de {cidade} para usuário {user_id}")
+        results = await search_gazette(cidade, assunto, limit=3)
+        
+        if not results:
+            await update.message.reply_text(
+                f"Não encontrei nada sobre '{assunto}' no Diário Oficial de {cidade} 😔\n\n"
+                "Tente:\n"
+                "• Usar outras palavras-chave\n"
+                "• Verificar se o nome da cidade está correto\n"
+                "• Buscar um assunto mais recente"
+            )
+            return
+        
+        # Get the most recent result
+        entry = results[0]
+        
+        message = (
+            f"📰 Encontrei {len(results)} menções a '{assunto}' no Diário de {cidade}!\n\n"
+            f"📅 Publicação mais recente: {entry['date']}\n"
+            f"📄 Edição: {entry.get('edition', 'N/A')}\n\n"
+        )
+        
+        # Add excerpt if available
+        if entry.get('excerpt'):
+            message += f"📝 Trecho:\n{entry['excerpt'][:300]}...\n\n"
+        
+        # Use the brain to summarize
+        summary_prompt = (
+            f"Resuma de forma simples o que este trecho do Diário Oficial significa:\n\n"
+            f"{entry.get('excerpt', 'Informação sobre ' + assunto)}\n\n"
+            f"Use linguagem acessível para idosos."
+        )
+        
+        summary = await process_message(user_id, summary_prompt)
+        message += f"💡 **O que isso significa:**\n{summary}"
+        
+        await update.message.reply_text(message)
+        
+    except Exception as e:
+        logger.error(f"❌ Erro no comando /diario: {e}", exc_info=True)
+        await update.message.reply_text(
+            "Desculpe, tive dificuldade para buscar no Diário Oficial. "
+            "Pode tentar de novo? 📰"
+        )
+
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import threading
 
@@ -164,8 +360,15 @@ if __name__ == "__main__":
         .build()
     )
     start_handler = CommandHandler("start", start)
+    lei_handler = CommandHandler("lei", lei_command)
+    deputado_handler = CommandHandler("deputado", deputado_command)
+    diario_handler = CommandHandler("diario", diario_command)
     msg_handler = MessageHandler(filters.ALL, handle_message)
+    
     application.add_handler(start_handler)
+    application.add_handler(lei_handler)
+    application.add_handler(deputado_handler)
+    application.add_handler(diario_handler)
     application.add_handler(msg_handler)
     logger.info("🤖 ELO Telegram Bot rodando...")
     logger.info("Pressione Ctrl+C para parar")
