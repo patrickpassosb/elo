@@ -78,8 +78,21 @@ class PreferenceStore(_BaseStore):
     """Generic key/value store for user preferences or other data."""
     pass
 
+
 # Global instances (imported where needed)
 session_store = SessionStore()
 preference_store = PreferenceStore()
 
-__all__ = ["session_store", "preference_store", "SessionStore", "PreferenceStore"]
+# Phase 3: Engagement features stores
+subscription_store = _BaseStore()  # User topic subscriptions
+feedback_store = _BaseStore()  # User feedback on bills
+
+__all__ = [
+    "session_store",
+    "preference_store",
+    "subscription_store",
+    "feedback_store",
+    "SessionStore",
+    "PreferenceStore",
+]
+

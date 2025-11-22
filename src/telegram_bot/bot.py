@@ -1,8 +1,15 @@
 import os
 import asyncio
 import uuid
-from telegram import Update
-from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import (
+    ApplicationBuilder,
+    ContextTypes,
+    CommandHandler,
+    MessageHandler,
+    CallbackQueryHandler,
+    filters,
+)
 
 from config import settings
 from logging_config import logger
@@ -11,6 +18,10 @@ from ai.openai_client import transcribe_audio, text_to_speech, describe_image_lo
 from utils.media import cleanup_file
 from ai.brain import process_message
 from exceptions import APIError, MediaError, ValidationError
+
+# Phase 3: Engagement features
+from services.subscription_service import subscribe_topic, unsubscribe_topic, get_subscriptions
+from services.feedback_service import save_feedback, get_sentiment_summary
 
 # Helper functions for user preferences
 def get_user_pref(user_id: str) -> str:
@@ -33,8 +44,109 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "🎤 Áudio - Eu respondo com áudio\n"
         "📝 Texto - Eu respondo com texto\n"
         "📷 Foto - Eu leio e explico o que tem nela\n\n"
+        "Comandos úteis:\n"
+        "/fiscalizar <tema> - Acompanhar votações sobre um tema\n"
+        "/minhas_inscricoes - Ver temas que você acompanha\n\n"
         "Estou aqui para te ajudar a entender documentos, leis e cartas!"
     )
+
+
+async def fiscalizar(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handler for /fiscalizar command - subscribe to a topic."""
+    user_id = update.effective_user.id
+    
+    # Get topic from command arguments
+    if not context.args:
+        await update.message.reply_text(
+            "Por favor, me diga qual tema você quer fiscalizar!\n\n"
+            "Exemplo: /fiscalizar educação\n\n"
+            "Temas disponíveis: educação, saúde, meio ambiente"
+        )
+        return
+    
+    topic = " ".join(context.args)
+    
+    # Subscribe user to topic
+    success = subscribe_topic(user_id, topic)
+    
+    if success:
+        # Get emoji based on topic
+        topic_emojis = {
+            "educação": "📚",
+            "saúde": "🏥",
+            "meio ambiente": "🌳",
+        }
+        emoji = topic_emojis.get(topic.lower(), "📋")
+        
+        await update.message.reply_text(
+            f"Ótimo! Vou te avisar quando houver votações sobre {topic}. {emoji}\n\n"
+            f"Use /minhas_inscricoes para ver todos os temas que você acompanha."
+        )
+    else:
+        await update.message.reply_text(
+            "Ops! Não consegui te inscrever nesse tema. Tente novamente mais tarde."
+        )
+
+
+async def minhas_inscricoes(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handler for /minhas_inscricoes command - list user subscriptions."""
+    user_id = update.effective_user.id
+    
+    subscriptions = get_subscriptions(user_id)
+    
+    if not subscriptions:
+        await update.message.reply_text(
+            "Você ainda não está acompanhando nenhum tema.\n\n"
+            "Use /fiscalizar <tema> para começar a acompanhar votações!"
+        )
+        return
+    
+    # Format subscriptions list
+    topics_list = "\n".join([f"• {topic}" for topic in subscriptions])
+    
+    await update.message.reply_text(
+        f"📋 Você está acompanhando:\n\n{topics_list}\n\n"
+        f"Total: {len(subscriptions)} tema(s)"
+    )
+
+
+async def handle_feedback_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handler for feedback button callbacks."""
+    query = update.callback_query
+    await query.answer()
+    
+    user_id = update.effective_user.id
+    
+    # Parse callback data: "feedback:<bill_id>:<sentiment>"
+    try:
+        _, bill_id, sentiment = query.data.split(":")
+        
+        # Save feedback
+        success = save_feedback(user_id, bill_id, sentiment)
+        
+        if success:
+            sentiment_messages = {
+                "concordo": "👍 Obrigado! Registrei que você concorda com essa lei.",
+                "discordo": "👎 Obrigado! Registrei que você discorda dessa lei.",
+                "neutro": "🤷 Obrigado! Registrei sua posição neutra.",
+            }
+            
+            message = sentiment_messages.get(sentiment, "Obrigado pelo feedback!")
+            
+            # Get sentiment summary
+            summary = get_sentiment_summary(bill_id)
+            if summary["total"] > 0:
+                message += f"\n\n📊 Resumo geral:\n"
+                message += f"👍 {summary['concordo']} | 👎 {summary['discordo']} | 🤷 {summary['neutro']}"
+            
+            await query.edit_message_text(text=message)
+        else:
+            await query.edit_message_text(text="Ops! Não consegui salvar seu feedback. Tente novamente.")
+            
+    except Exception as e:
+        logger.error(f"Error handling feedback callback: {e}", exc_info=True)
+        await query.edit_message_text(text="Erro ao processar feedback.")
+
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Main message handler for all supported message types."""
@@ -164,9 +276,17 @@ if __name__ == "__main__":
         .build()
     )
     start_handler = CommandHandler("start", start)
+    fiscalizar_handler = CommandHandler("fiscalizar", fiscalizar)
+    inscricoes_handler = CommandHandler("minhas_inscricoes", minhas_inscricoes)
     msg_handler = MessageHandler(filters.ALL, handle_message)
+    callback_handler = CallbackQueryHandler(handle_feedback_callback, pattern="^feedback:")
+    
     application.add_handler(start_handler)
+    application.add_handler(fiscalizar_handler)
+    application.add_handler(inscricoes_handler)
+    application.add_handler(callback_handler)
     application.add_handler(msg_handler)
+    
     logger.info("🤖 ELO Telegram Bot rodando...")
     logger.info("Pressione Ctrl+C para parar")
     application.run_polling()
