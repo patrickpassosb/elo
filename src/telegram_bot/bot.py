@@ -354,7 +354,7 @@ async def diario_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 def main() -> None:
     application = (
         ApplicationBuilder()
-        .token(settings.TELEGRAM_BOT_TOKEN)
+        .token(settings.telegram_token)
         .build()
     )
     # Register handlers
