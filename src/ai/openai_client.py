@@ -1,14 +1,25 @@
+"""
+OpenAI client wrapper with optional Azure OpenAI support.
+"""
+
 import base64
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
-from openai import OpenAI, APIError as OpenAIAPIError
+from openai import OpenAI, AzureOpenAI, APIError as OpenAIAPIError
 
 from config import settings
 from logging_config import logger
 from exceptions import APIError
-from utils.media import temporary_file
 
-# Initialize OpenAI client with validated API key
-client = OpenAI(api_key=settings.openai_api_key)
+# Initialize client based on configuration
+if settings.use_azure_openai:
+    client = AzureOpenAI(
+        api_key=settings.azure_openai_api_key,
+        api_version=settings.azure_openai_api_version,
+        azure_endpoint=settings.azure_openai_endpoint,
+    )
+else:
+    client = OpenAI(api_key=settings.openai_api_key)
+
 
 def _handle_api_error(func):
     """Decorator to wrap API calls and convert exceptions to APIError."""
@@ -23,57 +34,45 @@ def _handle_api_error(func):
             raise APIError(f"Unexpected error in {func.__name__}: {str(e)}") from e
     return wrapper
 
-@retry(retry=retry_if_exception_type(APIError),
-       wait=wait_exponential(multiplier=1, min=2, max=10),
-       stop=stop_after_attempt(3),
-       reraise=True)
+
+@retry(retry=retry_if_exception_type(APIError), wait=wait_exponential(multiplier=1, min=2, max=10), stop=stop_after_attempt(3), reraise=True)
 @_handle_api_error
 def transcribe_audio(file_path: str) -> str:
-    """Transcribe audio using OpenAI Whisper (whisper-1).
-    
+    """Transcribe audio using Whisper or Azure Whisper deployment.
+
     Args:
-        file_path (str): Path to the audio file.
-        
+        file_path: Path to the audio file.
     Returns:
-        str: The transcribed text.
+        Transcribed text.
     """
+    model_name = settings.azure_whisper_deployment if settings.use_azure_openai else settings.whisper_model
     with open(file_path, "rb") as audio_file:
         transcription = client.audio.transcriptions.create(
-            model=settings.whisper_model,
-            file=audio_file
+            model=model_name,
+            file=audio_file,
         )
     return transcription.text
 
-@retry(retry=retry_if_exception_type(APIError),
-       wait=wait_exponential(multiplier=1, min=2, max=10),
-       stop=stop_after_attempt(3),
-       reraise=True)
+
+@retry(retry=retry_if_exception_type(APIError), wait=wait_exponential(multiplier=1, min=2, max=10), stop=stop_after_attempt(3), reraise=True)
 @_handle_api_error
 def text_to_speech(text: str) -> str:
-    """Convert text to speech using OpenAI TTS (tts-1).
-    
+    """Convert text to speech using TTS model or Azure TTS deployment.
+
     Args:
-        text (str): The text to convert.
-        
+        text: The text to convert.
     Returns:
-        str: Path to the generated audio file.
+        Path to the generated audio file.
     """
+    model_name = settings.azure_tts_deployment if settings.use_azure_openai else settings.tts_model
     response = client.audio.speech.create(
-        model=settings.tts_model,
+        model=model_name,
         voice=settings.tts_voice,
-        input=text
+        input=text,
     )
-    # Here temporary_file is used correctly as a context manager because stream_to_file writes to it.
-    # But wait, if temporary_file deletes on exit, we have the same problem!
-    # The original code returned the path.
-    # I need to fix this too.
-    
-    import tempfile
-    import os
-    
+    import tempfile, os
     fd, path = tempfile.mkstemp(suffix=".mp3")
     os.close(fd)
-    
     try:
         response.stream_to_file(path)
         return path
@@ -82,22 +81,20 @@ def text_to_speech(text: str) -> str:
             os.remove(path)
         raise e
 
-@retry(retry=retry_if_exception_type(APIError),
-       wait=wait_exponential(multiplier=1, min=2, max=10),
-       stop=stop_after_attempt(3),
-       reraise=True)
+
+@retry(retry=retry_if_exception_type(APIError), wait=wait_exponential(multiplier=1, min=2, max=10), stop=stop_after_attempt(3), reraise=True)
 @_handle_api_error
 def describe_image(image_url: str) -> str:
-    """Describe an image from a URL using GPT-4o vision model.
-    
+    """Describe an image from a URL using vision model or Azure vision deployment.
+
     Args:
-        image_url (str): URL of the image.
-        
+        image_url: URL of the image.
     Returns:
-        str: Description of the image.
+        Description of the image.
     """
+    model_name = settings.azure_vision_deployment if settings.use_azure_openai else settings.llm_model
     response = client.chat.completions.create(
-        model=settings.llm_model,
+        model=model_name,
         messages=[
             {
                 "role": "user",
@@ -111,24 +108,22 @@ def describe_image(image_url: str) -> str:
     )
     return response.choices[0].message.content
 
-@retry(retry=retry_if_exception_type(APIError),
-       wait=wait_exponential(multiplier=1, min=2, max=10),
-       stop=stop_after_attempt(3),
-       reraise=True)
+
+@retry(retry=retry_if_exception_type(APIError), wait=wait_exponential(multiplier=1, min=2, max=10), stop=stop_after_attempt(3), reraise=True)
 @_handle_api_error
 def describe_image_local(image_path: str) -> str:
-    """Describe a local image file using GPT-4o vision model.
-    
+    """Describe a local image file using vision model or Azure vision deployment.
+
     Args:
-        image_path (str): Path to the local image file.
-        
+        image_path: Path to the local image file.
     Returns:
-        str: Description of the image.
+        Description of the image.
     """
+    model_name = settings.azure_vision_deployment if settings.use_azure_openai else settings.llm_model
     with open(image_path, "rb") as image_file:
         base64_image = base64.b64encode(image_file.read()).decode('utf-8')
     response = client.chat.completions.create(
-        model=settings.llm_model,
+        model=model_name,
         messages=[
             {
                 "role": "user",

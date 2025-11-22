@@ -139,6 +139,7 @@ async def handle_feedback_callback(update: Update, context: ContextTypes.DEFAULT
             await query.edit_message_text(text=message)
         else:
             await query.edit_message_text(text="Ops! Não consegui salvar seu feedback. Tente novamente.")
+
     except Exception as e:
         logger.error(f"Error handling feedback callback: {e}", exc_info=True)
         await query.edit_message_text(text="Erro ao processar feedback.")
