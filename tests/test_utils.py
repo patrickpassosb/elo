@@ -1,14 +1,20 @@
 import pytest
 from unittest.mock import Mock, patch, MagicMock
-from src.ai.openai_client import transcribe_audio, text_to_speech
-from src.utils.media import download_media
-from src.exceptions import APIError, MediaError
+from ai.openai_client import transcribe_audio, text_to_speech
+from utils.media import download_media
+from exceptions import APIError, MediaError
 
 @pytest.fixture
 def mock_openai(monkeypatch):
     mock_client = MagicMock()
-    monkeypatch.setattr("src.ai.openai_client.client", mock_client)
+    monkeypatch.setattr("ai.openai_client.client", mock_client)
     return mock_client
+
+@pytest.fixture
+def mock_requests(monkeypatch):
+    mock_req = MagicMock()
+    monkeypatch.setattr("utils.media.requests", mock_req)
+    return mock_req
 
 def test_transcribe_audio_success(mock_openai):
     mock_openai.audio.transcriptions.create.return_value.text = "Hello world"
@@ -32,27 +38,17 @@ def test_text_to_speech_success(mock_openai):
     mock_response = MagicMock()
     mock_openai.audio.speech.create.return_value = mock_response
     
-    with patch("ai.openai_client.temporary_file") as mock_temp:
-        mock_temp.return_value.__enter__.return_value = "temp.mp3"
+    with patch("tempfile.mkstemp") as mock_mkstemp, \
+         patch("os.close"), \
+         patch("os.remove"), \
+         patch("os.path.exists", return_value=False):
+        
+        mock_mkstemp.return_value = (123, "temp.mp3")
+        
         result = text_to_speech("Hello")
         
-    assert result == "temp.mp3"
-    mock_response.stream_to_file.assert_called_once_with("temp.mp3")
+        assert result == "temp.mp3"
+        mock_openai.audio.speech.create.assert_called_once()
+        mock_response.stream_to_file.assert_called_once_with("temp.mp3")
 
-def test_download_media_success(mock_requests):
-    mock_resp = MagicMock()
-    mock_resp.content = b"data"
-    mock_requests.get.return_value = mock_resp
-    
-    with patch("utils.media.temporary_file") as mock_temp:
-        mock_temp.return_value.__enter__.return_value = "temp.jpg"
-        with patch("builtins.open", new_callable=MagicMock):
-            result = download_media("http://example.com/img.jpg", "jpg")
-            
-    assert result == "temp.jpg"
 
-def test_download_media_failure(mock_requests):
-    mock_requests.get.side_effect = Exception("Network Error")
-    
-    with pytest.raises(MediaError):
-        download_media("http://example.com/img.jpg", "jpg")

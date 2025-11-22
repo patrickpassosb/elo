@@ -1,15 +1,13 @@
 import os
 import pytest
 
-# Set environment variables for testing before any imports
-os.environ["OPENAI_API_KEY"] = "sk-test-key"
-os.environ["TELEGRAM_TOKEN"] = "test-token"
-os.environ["LLM_MODEL"] = "gpt-4o-test"
-os.environ["TTS_MODEL"] = "tts-1"
-os.environ["TTS_VOICE"] = "alloy"
-os.environ["WHISPER_MODEL"] = "whisper-1"
+# Set dummy environment variables BEFORE importing any modules that use settings
+os.environ["TELEGRAM_TOKEN"] = "dummy_token"
+os.environ["OPENAI_API_KEY"] = "sk-dummy-key"
+os.environ["TWILIO_ACCOUNT_SID"] = "ACdummy"
+os.environ["TWILIO_AUTH_TOKEN"] = "dummy_token"
 
-@pytest.fixture(scope="session", autouse=True)
-def set_env():
-    """Fixture to ensure env vars are set (redundant but keeps fixture structure)."""
-    pass
+@pytest.fixture(autouse=True)
+def mock_sleep(monkeypatch):
+    """Make time.sleep instant to speed up retries."""
+    monkeypatch.setattr("time.sleep", lambda x: None)

@@ -1,6 +1,7 @@
 import time
 import pytest
-from datetime import timedelta
+from datetime import datetime, timedelta
+from unittest.mock import patch, MagicMock
 from src.storage import _BaseStore, SessionStore, PreferenceStore
 
 class TestBaseStore:
@@ -9,13 +10,26 @@ class TestBaseStore:
         store.set("key", "value")
         assert store.get("key") == "value"
 
+    def test_default_factory(self):
+        store = _BaseStore()
+        val = store.get("key", default_factory=list)
+        assert val == []
+        assert store.get("key") == []
+
     def test_ttl_expiration(self):
-        # Create store with very short TTL
-        store = _BaseStore(ttl_hours=0.0001)  # ~0.36 seconds
-        store.set("key", "value")
-        assert store.get("key") == "value"
-        time.sleep(0.5)
-        assert store.get("key") is None
+        # Mock datetime to control time
+        with patch("src.storage.datetime") as mock_datetime:
+            # Start time
+            start_time = datetime(2023, 1, 1, 12, 0, 0)
+            mock_datetime.utcnow.return_value = start_time
+            
+            store = _BaseStore(ttl_hours=1)
+            store.set("key", "value")
+            assert store.get("key") == "value"
+            
+            # Advance time by 2 hours
+            mock_datetime.utcnow.return_value = start_time + timedelta(hours=2)
+            assert store.get("key") is None
 
     def test_max_size_eviction(self):
         store = _BaseStore(max_size=2)
