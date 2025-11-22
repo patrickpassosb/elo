@@ -69,3 +69,41 @@ async def process_message(session_id: str, user_input: str):
     except Exception as e:
         logger.error(f"Error processing message for session {session_id}: {e}", exc_info=True)
         return "Desculpe, tive um problema para pensar na resposta. Pode tentar de novo?"
+
+# ---------------------------------------------------------------------------
+# Legislative helper functions (Phase 4)
+# ---------------------------------------------------------------------------
+
+async def explain_law(law_text: str) -> str:
+    """Explain a law text in simple, warm language using the LLM."""
+    if not law_text:
+        return "Não recebi nenhum texto de lei para explicar. Pode me mandar o artigo ou a lei que você quer entender?"
+    try:
+        response = await llm.ainvoke({"input": law_text})
+        return getattr(response, "content", str(response))
+    except Exception as e:
+        logger.error(f"Error in explain_law: {e}", exc_info=True)
+        return "Desculpe, tive um problema ao explicar a lei. Tente novamente mais tarde."
+
+async def summarize_bill(bill_text: str) -> str:
+    """Summarize a bill (PL) in a concise, user‑friendly format."""
+    if not bill_text:
+        return "Não recebi nenhum texto de projeto de lei para resumir."
+    try:
+        response = await llm.ainvoke({"input": bill_text})
+        return getattr(response, "content", str(response))
+    except Exception as e:
+        logger.error(f"Error in summarize_bill: {e}", exc_info=True)
+        return "Desculpe, tive um problema ao resumir o projeto de lei. Tente novamente mais tarde."
+
+async def explain_article(article_text: str) -> str:
+    """Explain a single article of a law in accessible language."""
+    if not article_text:
+        return "Não recebi nenhum artigo para explicar."
+    try:
+        response = await llm.ainvoke({"input": article_text})
+        return getattr(response, "content", str(response))
+    except Exception as e:
+        logger.error(f"Error in explain_article: {e}", exc_info=True)
+        return "Desculpe, tive um problema ao explicar o artigo. Tente novamente mais tarde."
+
