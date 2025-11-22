@@ -129,7 +129,15 @@ if __name__ == "__main__":
     if not token:
         logger.error("❌ Erro: TELEGRAM_TOKEN não encontrado na configuração.")
         exit(1)
-    application = ApplicationBuilder().token(token).build()
+    application = (
+        ApplicationBuilder()
+        .token(token)
+        .read_timeout(30)
+        .write_timeout(30)
+        .connect_timeout(30)
+        .pool_timeout(30)
+        .build()
+    )
     start_handler = CommandHandler("start", start)
     msg_handler = MessageHandler(filters.ALL, handle_message)
     application.add_handler(start_handler)
