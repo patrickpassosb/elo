@@ -1,0 +1,633 @@
+﻿Projeto de Lei 2338 sobre o uso da IA no Brasil: por que desenvolvedores precisam prestar atenção?
+
+
+
+
+Olá, pessoal. Voltamos, estamos de volta. Hoje está sendo uma maratona de conteúdos aqui para dar um contexto bom para vocês de todo o desafio, de tudo que a gente tem que... que a gente vai trabalhar e que vocês vão trabalhar durante esse Hackathon Devs de Impacto Online.
+
+
+Bem-vindo de volta, Robô. Boa, boa, boa. O pessoal está chegando ainda.
+
+
+Vamos dar um minutinho. Eu estou testando aqui. Vamos ver os barulhinhos que a gente tem aqui para a gente usar.
+
+
+Esse aqui é o de aplausos. É, eu sabe, você ligou uma música. A gente tem esse aqui.
+
+
+Tem o... Ah, coração batendo. Nossa, esse a gente tem que usar... É, esse a gente tem que usar muito quando tiver para anunciar o ganhador. Ó, o ganhador.
+
+
+Nossa, mas eu tenho muito isso no final. E tem musiquinha também, ó. Eu vi, tem todo um som ambiente, musiquinhas de elevador. Bom, pessoal, bora de hashtag VemParaLive.
+
+
+Vamos trazer a galera que a gente está com o número... Isso, vamos jogar lá no grupo, galera. Baixo ainda. Vou aqui, vou fazer minha composição aqui.
+
+
+Conseguiu um de riso também aqui. Olha a gente. Nossa.
+
+
+Nossa, é muito... É muito aqueles programas, sabe? Tipo, Danilo Gentili. Coisa bem americano. É muito isso que a gente tem aqui.
+
+
+Tem uns legais aqui, ó. O Vô está achando que isso aqui é brinquedo, né? Não, isso aqui é produção audiovisual. É débil de impacto isso, velho. Débil de impacto.
+
+
+Cadê o impacto? Bom, pessoal... Eu já fiz aqui a minha VemParaLive aqui, hashtag VemParaLive. A Maisa... Eu passo todo dia, Maisa. O pessoal está chegando.
+
+
+Antes aqui de apresentar o nosso superconvidado aqui, alguém que vai trazer uma informação, eu quero dar um reforço importante, pessoal. Então, assim, eu vou até pedir para vocês tirarem um print desse momento que eu vou colocar aqui na tela o tema e manda no grupo para a galera ficar curiosa e vir para a live, porque isso aqui é superimportante. A gente tem uma temática bem desenvolvida, né? Quando a gente pega a temática aqui, ela está em uma frase e a gente achou importante reforçar.
+
+
+Então, o enunciado é como a inteligência artificial pode ser utilizada para aumentar o engajamento cidadão em discussões legislativas e governamentais. Então, a gente está falando de engajamento, a gente está falando do cidadão e a gente está falando especificamente em discussões legislativas e governamentais. E aí, o que a solução precisa garantir? Garantir que pessoas comuns, um, se informem, dois, compreendam, três, se sintam ouvidas e quatro, eventualmente influenciem nas leis que impactam a vida delas.
+
+
+Então, a gente está falando aqui... Por exemplo, a gente tem vários grupos que são impactados por diferentes leis. Como que a pessoa participa dessa discussão? Como que ela, primeiro, entenda o que está acontecendo, eventualmente, a partir do entendimento, ela consiga se sentir ouvida e também ter espaço de voz e aí trabalhar nesse processo de influenciar essa lei que vai mudar, de alguma forma, o cotidiano, vai influenciar na vida dela. Então, o enunciado está muito, muito, muito, muito bem escrito e eu achei legal bater esse ponto porque isso aqui a gente vai usar no briefing com a banca.
+
+
+Então, a banca, quando for avaliar, ele vai levar em consideração essa frase. Então, isso é super importante. E aqui tem um contexto que a Dani e que a Célia apresentou também de uma forma, assim, muito boa. 
+
+
+Então, foquem nesse material. Tira um print aqui também, a Marta me ajudando. Peraí, opa.
+
+
+Aí, tira um printzinho desse aqui, manda no grupo também, que aí o pessoal vai falar, pô, estão falando do tema e volta. E aí, por último, e aí já partindo aqui para a apresentação, a gente tem lá dentro do regulamento, alguém mandou o regulamento no grupo agora, minutos atrás, a gente tem os nossos critérios de avaliação. Então, como a gente vai avaliar essa solução? Um, pela qualidade do protótipo entregue. 
+
+
+Então, assim, tem que ter protótipo? Sim. Vamos avaliar a qualidade do protótipo? Sim. Dois, aderência ao tema proposto.
+
+
+Está conectado com essa frase que a gente trouxe aqui? Sim. Precisa, é necessário. O três, o uso da inteligência artificial.
+
+
+Afinal de contas, a gente está numa proposta de Hackaton de usar a tecnologia de inteligência artificial de forma positiva e para o bem. O quatro, a viabilidade. E a viabilidade aqui está falando de análise, analisa o realismo para a implementação, incluindo, obviamente, custo e escalabilidade. 
+
+
+Então, o que a gente trouxe, para não misturar os conceitos, não precisa ter um modelo de negócio e falar, ah, vai custar R$ 39,90 para o cidadão. Isso não precisa, mas tem que ser minimamente viável. Então, se for algo que foge completamente assim, é impossível de ser implementado, é inviável, isso também pesa.
+
+
+E, por último aqui, a criatividade, o quanto esse projeto é original, o quanto ele é fora da caixa, o quanto ele tem potencial disruptivo. Então, esses são os nossos critérios de avaliação, mas super importante é a questão aqui do tema. E eu vou ler pela última vez aqui, só para ficar na cabeça de todo mundo.
+
+
+Como a inteligência artificial pode ser utilizada para aumentar o quê? Engajamento cidadão em discussões legislativas e governamentais. Ué, sumiu da tela. Não, está aqui.
+
+
+É, o meu sumiu. Aí, garantindo o quê? Pessoas comuns, um, se informem, dois, compreendam, três, se sintam ouvidas, quatro, influenciem nas leis que impactam quem? A vida delas. É isso.
+
+
+Aplausos para mim. Uh! Aplausos para mim. E eu já aproveito também para aplaudir aqui o Fabro.
+
+
+O Fabro vai achar que a gente é muito louco. Aê! Eu vi enquanto eu estava testando os lábios aqui, ele estava dando gargalhada aqui no log. Então, Fabro, seja muito bem-vindo.
+
+
+Para a gente, é uma honra ter a tua presença aqui, a tua participação. E a gente está aqui nesse movimento de Debra's Impact com discussões bastante profundas de uso de tecnologia para, de fato, gerar algum tipo de impacto lá na ponta. E a gente tem um monte de gente, são mais de 200 participantes aqui com a gente.
+
+
+É... Pessoas de várias regiões do Brasil, de vários níveis de experiência. Então, a gente está muito ansioso por esse final de semana aí de Hack. Então, a gente está nesse momento de esquenta, as equipes estão sendo formadas, o pessoal está começando a absorver todo esse conteúdo.
+
+
+E tudo que é contexto, assim como a gente fala de inteligência artificial, o contexto acho que é a coisa mais importante da IA. Tudo que é contexto é superimportante. A gente tem um trabalho aqui de dar o máximo de input para os grupos, trazendo informação.
+
+
+Então, já passou aqui a Célia, já passou a Dani, passou o João, passou o Rodrigo Cobra, quase meu chará. Então, assim, passou pessoas trazendo conteúdo superlegais e eu estava bastante ansioso com o teu conteúdo, que o seu conteúdo exemplifica um pouco. A gente está falando do enunciado ali que eu acabei de ler, que fala um pouco da temática. 
+
+
+Então, acho que você vai conseguir ilustrar bastante para a gente aqui baseado no projeto, como isso pode influenciar e como a gente eventualmente traz esse engajamento cidadão que é a temática aqui dessa edição online do Deves de Impacto. E aí, antes de te passar aqui a voz e o palco e deixar você dominar, queria primeiro dizer uma boa tarde e pedir para você se apresentar, dar um oi para a galera e aí a gente já, eu e a Gi, vamos para os bastidores daqui e você continua. E no final a gente faz o bate-bola de perguntas e respostas.
+
+
+É isso. Muito obrigado. Gente, eu vou me apresentar currícula, essas coisas, é o segundo slide, porque eu acho que primeiro a gente tem que falar daquilo que você quer ouvir, que é, por que eu deveria ouvir essa pessoa? E o que eu posso dizer é que vocês estão sentando nos ombros de gigantes, porque o Brasil sempre foi um dos líderes em tecnologias participativas. 
+
+
+Inclusive, meu primeiro slide é o Marco Sobre a Internet, que é o primeiro portal de consulta pública, usando a internet para a internet, que foi feito. E agora a gente tem essa possibilidade de usar IAD, de usar outras ferramentas para ampliar mais assim. Não sei aí... O Fabio, você quer compartilhar de novo seus slides que saíram daqui? Aí você me fala, que eu já libero.
+
+
+Posso? Posso? Eu já vou para o slide, Gi. Eu queria só falar para você o seguinte, ou seja, quem aí gosta de reunião de síndico, condomínio? Quem gosta de descer e participar? Isso é democracia. Você pode fazer tecnologias para aquilo ficar melhor.
+
+
+Quem aí é sócio de clube de futebol e vai lá e discute sobre o seu time favorito? Isso é democracia, isso é participação. Se você aí está em algum partido político ou alguma agremiação com participação política, também tem esse movimento. Então, o que a gente está fazendo aqui é fazer as pessoas gostarem da democracia.
+
+
+Porque todo brasileiro é político. Todo mundo tem uma opinião sobre alguma coisa e gostaria de fazer alguma coisa. Mas traduzir esse monte de vozeirão para algo que sirva para uma consulta pública, que sirva para o governo, aí é um processo e aí a gente pode usar tecnologia. 
+
+
+Gi, vou compartilhar aqui. Espera aí. Espera aí.
+
+
+Esse aqui. Esse aqui. Ah, vou apertar aqui.
+
+
+E aí a bola é com você agora. Tá bom. Tá bom.
+
+
+Tá daqui a pouquinho, gente. Bom, para quem está vendo essa foto, existe uma lei que é a lei do marco civil da internet. Como é que isso começa? Quando a internet começa a ser pensada como regulação no Congresso, a ideia era crimes.
+
+
+Vamos criminalizar o abuso, vamos criminalizar a invasão, vamos criminalizar tudo. E a pergunta que se fez, tá, mas quais são os direitos que a gente tem nesse ambiente? É o mesmo que a gente tem fora ou ali dentro tem alguma coisa? Essa indagação em direitos digitais e tudo mais, ela começou com o Ministério da Justiça, então o governo, com um centro de pesquisa da uma universidade, eu estava lá, aonde eles fazem um site, um Wordpress, onde eles colocam lá os quatro principais temas que a lei deveria falar, as pessoas comentam, aí na segunda fase eles colocam o texto, as pessoas comentam e disso daí gera o texto final que aí começou a tramitar realmente no Congresso. Quando teve as revelações de Snowden, ou já havia um grande congresso de internet, o marco civil vai e passa.
+
+
+Mas a participação das pessoas aqui, ela é fundamental. Não é tanta gente assim que participou como aqui, são pelo menos 2.000, 2.500 pessoas, mas são pessoas muito qualificadas. Tinha jogador de game, tinha direitos autorais, tinha telecomunicação, tinha tudo quanto é tipo de gente e eles estavam discutindo junto.
+
+
+A moral disso é, eu não sei quantas legislações vocês conhecem no Brasil que passam 10 anos sem serem modificadas. Quando ela é grande, tipo o marco civil da internet, isso é muito raro. E o marco civil passou isso daí. 
+
+
+A única vez que ele foi modificado foi com a Lei Geral de Proteção de Dados, que foi algo que explicou melhor. E isso é por causa do consenso que foi gerado. Esse processo participativo, que é o que vocês estão resolvendo aqui, ninguém ganhou. 
+
+
+Todo mundo perdeu algo. Mas aquilo que era, as pessoas não discordavam, gerou algo muito sólido. E é por isso que a gente deve usar tecnologia.
+
+
+Meu nome é Fabio Steinberg, eu sou diretor do Centro de Pesquisa, Instituto de Tecnologia e Sociedade do Rio. A gente trabalha explicando os prós e contras da tecnologia para a regulação, para o desenvolvimento. A gente cria tecnologias.
+
+
+Fizemos lá em 2016 um GovBR funcionando a blockchain que chegou a ter 700 mil usuários. Fizemos uma consulta sobre o PL que eu vou mostrar a seguir. E a gente fala bastante sobre a regulação na inteligência artificial, que é o tema que eu vou trazer aqui para hoje. 
+
+
+Gosto muito de dados pessoais. Fui da primeira turma do conselho da Autoridade Nacional de Proteção de Dados. Sou afiliado do Berkman Klein Center, da Universidade de Harvard. 
+
+
+E porque a gente não pára quieto, hoje eu faço o MBA em Agronegócio na USP. Mas a minha formação é Comunicação, Direito, Ciência Política. Meu doutorado foi sobre Fake News e TSE e Fact Checkers, mas em 2003 não tinha esse nome não. 
+
+
+Então, muito antes de a gente começar a discutir isso, lá estava eu fazendo o doutorado sobre isso. Ali está o QR Code do meu LinkedIn para quem quiser seguir. E vamos seguir.
+
+
+Para vocês terem uma ideia, ontem, exatamente ontem, a União Europeia publicou um documento. Esse documento faz uma grande mudança nas leis digitais que vão ter lá na Europa. Inclusive a lei de inteligência artificial deles lá, o EUAI Act.
+
+
+Por que eles fizeram isso? É chute? Não. Olha o que eles fizeram. Para chegar nessas grandes transformações, eles fizeram três consultas públicas e chamadas de evidências. 
+
+
+Ali, no início de 2025, centrado em alguns pilares especiais. Eles fizeram uma chamada para um draft do relatório que eles iam colocar, receberam 512 respostas, analisaram ela por grupos de trabalho, analisaram por setores, depois levaram para vários parlamentos e discutiram. Isso daqui é um processo de escuta.
+
+
+É perfeito? Não. Mas isso daqui é escutar a sociedade. E se você fizer tudo isso sem tecnologia, é muito caro de você participar disso.
+
+
+Porque, para você que tem ali acesso de ir a um parlamento, vá na Câmara de Vereadores, vá participar, você vai ver que você tem que ir até lá, é caro e tudo mais. Agora, abriu a internet, abriu a tecnologia, fica muito barato. E aí as pessoas topam doar um pedacinho do dia delas para participar aqui. 
+
+
+Inclusive empresas, inclusive outros setores. Se vocês quiserem, para ter ideia de material para fazer, o piloto de vocês, o MDP, esse é um policy briefing muito legal. Foi feito por quatro pessoas que entendem muito de governo aberto e lá tem várias tipologias de tecnologias utilizadas para participação. 
+
+
+Para brainstorm pode ser um bom material. E, no ITS Rio, a gente fez uma consulta sobre a inteligência artificial. A gente botou um site de pé, recebeu, e o resultado dessa consulta a gente compilou, inclusive eu comecei com o chefe de EPT compilando, depois eu fui editando, gerou a lei de inteligência artificial de Goiás. 
+
+
+Se tem alguém de Goiás, saiba que a lei de Goiás foi feita com a ajuda dessas ferramentas que vocês estão desenvolvendo aí. O que a gente sabe sobre a lei que está circulando, o projeto de lei de inteligência artificial? Uma das coisas que a gente sabe é que houve pouca consulta. Não é que houve pouca consulta porque houveram mais de 200 pessoas participando, audiências públicas e tudo mais.
+
+
+Acontece que a tecnologia não foi utilizada para fazer isso aqui acontecer. Eu fui uma das pessoas que falou lá no Congresso várias vezes, fui lá como especialista para falar do PL, mas ainda era aquele modelo de audiência pública, que você chama cinco pessoas, cada uma fala dez minutos, mas você pega ali uma ou duas perguntas e acabou. Não tinha aquele espaço de participação amplo que teve lá no marco da internet. 
+
+
+Começou com uma comissão de juristas que criaram o texto, então começou sem participação. Aí esses juristas fizeram 200 ouviram 200 pessoas, gravaram, fizeram relatório sobre isso, depois foi para o Senado. No Senado eles só fizeram audiência pública sem publicar resultados, passou no final do ano, agora está na Câmara. 
+
+
+Já fizeram várias audiências, mas também não teve um grande processo de participação. A expectativa é que no final do ano vire lei. E por que isso importa para vocês? Isso importa porque a lei que está sendo discutida lá é muito muito parecida com a lei que foi proposta na União Europeia.
+
+
+Quem que é essa União Europeia que pensava? Depende, depende do ano que você pega. Se você pega em 2017, a União Europeia estava preocupada com robótica. Ela estava preocupada com robôs sumindo o controle e acabando com a Terra.
+
+
+Em 2021 ela fica preocupada com a inteligência artificial. Larga a robótica, vai para a inteligência artificial. Faz um projeto de lei super amplo, super abrangente para regular toda a inteligência artificial.
+
+
+E a inteligência artificial, naquele momento que tinha, era a IA descritiva. Então era o carro autônomo que tem que escolher se ele vai atropelar o bebê, se ele vai atropelar a senhora, se vai atropelar o bandido, se vai atropelar o policial. Era um carro que tinha que fazer. 
+
+
+Para quem quiser fazer isso ao vivo, existe aí a máquina moral do MIT, que é esse sistema. É muito perturbador responder aquelas perguntas, mas vale muito a pena. Isso foi em 2021. 
+
+
+É nesse momento que a gente começa a discutir a nossa regulação. Então a gente pega aquela material da Europa, copia a metade, ajusta outras coisas, e isso vai passando. Mas a Europa 2024 foi a Europa que aprovou a lei de ALA. 
+
+
+Mas essa Europa já era muito diferente de 21 e de 17. Em 24 já tinha GPT. Toda a IA gerativa, OpenAI e todos os outros, eles batem no PL de A, na regulação, na canela. 
+
+
+Porque todo o PL foi feito para um tipo de IA, um pensamento de IA. Mas quando você coloca sistemas fundamentais, quando você coloca uma IA que pode ser usada para fazer outra IA, a lei não aplicava. Então eles foram fazendo ajustes ali com coisinhas. 
+
+
+Passou a lei. Em 2025 já lançaram aquela consulta que eu falei pra vocês, revendo essa lei e vendo outras coisas. Em 2028, vai saber onde é que a gente vai estar. 
+
+
+Por que isso importa? Porque a gente copiou da Europa uma regulação baseada em direitos. O que significa isso? Significa que a lei está criando novos direitos. O que isso implica pra você desenvolvedor? Se você vai criar uma solução, tem alguns direitos das pessoas que você vai ter que colocar lá.
+
+
+Seja num chefe, seja numa pessoa, seja alguma coisa. Porque da mesma forma que você tem direito à informação, você vai ter que ter o direito à revisão da decisão, à explicação, à transparência. Coisas que você vai ter que fazer.
+
+
+Faz sentido uma regulação baseada em direitos? Faz. Quando a gente começou com a Inteligência Artificial, a gente viu o quanto que ela pode ser... o quanto que ela pode multiplicar aspectos da sociedade que a gente não quer multiplicar. Então, fora dos valores constitucionais. 
+
+
+Então, por exemplo, esse é um dos primeiros estudos de Adjoa Ito, onde ela comprovou que o reconhecimento facial utilizado na época tinha um tratamento desproporcional entre mulheres brancas jovens e mulheres negras mais velhas. Esse estudo falou que a tecnologia não tem impacto igual. Então, vamos mudar o direito das pessoas de serem tratadas iguais.
+
+
+Toda questão de direitos faz muito sentido, mas muitos desses direitos já estão regulados no Brasil. Você tem o marketing da internet, você tem o código do consumidor, você tem o código civil, você tem vários lugares onde a gente já tem esse direito. A pergunta é, a gente precisa de novos direitos? Porque isso daqui tem todo um custo.
+
+
+A segunda coisa é que a União Europeia pensou numa regulação em camadas de risco. São quatro camadas. A gente copiou esse modelo fazendo algumas modificações.
+
+
+Então, eles decidiram falar que um tipo de IA não pode existir. E estaram lá algumas delas. Outras são de alto risco. 
+
+
+Alto risco significa que pode dar merda. E, portanto, eu preciso de muita coisa pra me precaver. Então, são aquelas aplicações de IA que vão ter bastante obrigações de transparência, de dados de governança e várias outras coisas. 
+
+
+Aí você vai ter na União Europeia o risco limitado que é aquele risco que eu conheço. Por exemplo, decisões automatizadas em equipamentos médicos. Faz dez anos que eu trato isso já na legislação.
+
+
+Eu sei o que pode dar errado, como mitigar e tudo mais. Então, basta você continuar me dando dados e eu vou saber se você está dentro do limite ou não. E tem aquela que é mínima.
+
+
+Então, você fala, código de conduta, vira isso aí. O que a gente fez? A gente copiou a parte de proibidos, colocando algumas coisinhas a mais. A gente copiou a parte de alto risco, colocando umas coisinhas a mais.
+
+
+E todo o resto, a gente falou, é residual, que em direito significa tudo igual. Então, a gente nivelou por cima. Por que isso implica para você? Porque se você estiver fazendo uma aplicação de IA que estiver ali no alto risco, você tem um grande custo de compliance para começar. 
+
+
+Ninguém estimou o quanto custa. Eu estimo em 200 mil reais. Então, você imagina uma startup que conseguiu ali 500 mil reais para rodar seis, oito meses e tem que pagar 200 para fazer um compliance, para fazer uma adaptação a essa lei. 
+
+
+É muito difícil. É claro que o investidor vai cobrar isso, portanto, você não pode deixar de fazer, porque vai encarecer seu dinheiro. Mas, para o futuro, o governo vai falar que, ok, pesar uma mão, vamos aliviar.
+
+
+Mas, até lá, a gente que está começando essa IA que está surgindo no Brasil, esse mercado, ele tende a ser freado. E também foi pensado na Europa que a gente também importou para cá uma regulação que a gente chama de guarda-chuva. O que significa isso? Significa que você vai regular toda a inteligência artificial.
+
+
+Não é a IA que é usada na fintech, não é a IA que é usada na saúde, é toda e qualquer IA. E aqui nós temos um problema que é o que é inteligência artificial? Porque quando a gente fez o marco civil da internet, a gente botou lá uma definição do que é internet. É uma rede pública de computadores interligado. 
+
+
+Era isso. Serve para blockchain, serve para deep web, serve para várias coisas. Já passaram mais de dez anos e continua valendo.
+
+
+Mas a definição de inteligência artificial aqui, ela tem mudado a cada seis meses. Falar em 2021 que era IA é bem diferente de falar quando você tem modelos generativos abrangentes. Hoje tem modelo generativo de antibióticos, de proteínas, de minerais, de previsão climática. 
+
+
+Então, regular toda a inteligência artificial é um desafio de imaginação. Porque você tem que imaginar toda a internet, que a gente fez, ou toda a inteligência artificial. E aqui é muito difícil, porque a gente conhece pouco. 
+
+
+De qualquer forma, o grande motivo da União Europeia ter feito isso é uma questão de direitos? Sim. É uma questão de risco? Sim. Mas o principal é, eles não têm Big Tech, eles não têm tecnologia.
+
+
+Eles estavam muito pequenos no mercado digital. Esse é um gráfico de 2021. Nas bolotinhas vermelhas você vê, entre as cem maiores empresas digitais, aquelas são da Europa.
+
+
+Você vê da América, você vê da Ásia. Brasil nem aparece aí, tem o mercado livre, palmas para os argentinos, e a África aparece um pouquinho. A preocupação da Europa era o que a gente chama de barreira regulatória. 
+
+
+Se o Trump está fazendo hoje uma barreira tarifária, a Europa estava fazendo uma barreira regulatória. Porque a ideia era, vamos parar o produto do resto vindo aqui, vamos cuidar do nosso, vamos crescer o jardim, depois a gente abre as porteiras. Será que faz sentido a gente fazer esse mesmo movimento no Brasil? A gente tem mais empresas digitais do que a Europa, e a gente não tem o mesmo poder de barganha do que a Europa, porque em dinheiro eles são muito maiores que a gente.
+
+
+É um potencial. E aí isso pode gerar três impactos possíveis para você. Primeiro, uma concentração de mercado. 
+
+
+Por quê? Porque se é difícil você pagar a conta para você começar, quando você tiver uma boa ideia, vai vir um grandão e falar, eu divido esse custo com você. E aí você me dá 30% das suas ações e você segue. Então a gente viu isso. 
+
+
+No começo da pandemia, em educação e saúde, esse movimento está acontecendo. As grandes empresas de saúde não tinham tanta tecnologia, saíram comprando startup a rodo. Moral da história, boa parte das startups foram fechadas, não foram para frente, foram afundadas.
+
+
+A outra metade acabou que não tem mais aquele perfil de startup, que constantemente está inovando. A gente tem um pouco mais de telesaúde hoje, mas a gente tem aquele mercado que estava vibrando. Hoje o mercado vibra menos.
+
+
+Então você colocar um custo de compliance nessa entrada é um problema. A gente ainda cria barreiras ao mercado nacional, a ter empresas nacionais, porque você institui a cultura do não pode. Quando você coloca uma lei dizendo vários riscos e obrigações, a primeira coisa que o jurídico vai falar é não pode, depois ele vai fazer a pergunta. 
+
+
+É um PL muito focado nas enormes empresas americanas, que a gente chama de Big Tech. Então Amazon, OpenAI, Oracle, Meta, Google e outras. Então para vocês que estão começando, ou para aquelas empresas que vão se juntar a você, ele acaba que não foi calibrado para vocês, e é um aumento do custo de processamento.
+
+
+Hoje, se você quiser comprar 1 milhão de tokens no Cloud, que é da Perplexly, você vai pagar 75 dólares por milhão. Se você for usar o Cuen, que tem na China, na Alibaba, você vai pagar 3 centavos. É uma diferença de 2.500 vezes.
+
+
+Será que o Cloud é melhor do que o Cuen? Possivelmente. Mas será que ele é 2.500 vezes melhor? Não sabemos. Então, quando a gente fala de custo de processamento, a gente está falando sobre toda essa cadeia de limpar dados, processar dados, organizar dados, tende a ficar mais caro também com esse PL.
+
+
+E o que a gente sabe dos custos? Por que eu estou falando que vai aumentar? Nós, no ITS, a gente mapeou todas as obrigações que são colocadas na lei proposta. São 68 no total. A gente comparou isso com a União Europeia.
+
+
+Eles têm 39, a gente tem 68. A gente ampliou para ficar ainda mais protetivo. No sistema de alto risco, na Europa, 10% do mercado era alto risco.
+
+
+Aqui, é um terço. 35%. Então, outra coisa que a gente fez, a forma como a gente regulou, foi colocar para cima as regulações. 
+
+
+Nisso, mais gente entrou no alto risco. E você, desenvolvedor, o que você tem a ver com isso? Eu acho que o que está em jogo aqui é o futuro do Brasil. Se a gente vai ser consumidor de tecnologia ou se a gente vai ser produtor de tecnologia.
+
+
+Gente, eu acho fenomenal a gente poder comprar ferramentas fechadas e usar. Eu não uso Word, eu não uso uma ferramenta aberta de preta texta, eu uso Word, eu uso Chrome, eu uso várias ferramentas que é muito mais acessível você pagar uma pequena assinatura ou de você ter um outro modelo de negócio, em vez de você desenvolver a sua própria. Mas, não dá para você só ter esse tipo de tecnologia. 
+
+
+A gente precisa também ter aquela coisa que a gente faz, senão esse hackathon não estava acontecendo. Se vocês não pudessem desenvolver código, se não tivesse um mercado de código para vocês, se não tivesse dados, vocês não seriam produtores de tecnologia. Então, o que está em jogo aqui é como é que a gente nutre esse modelo de inteligência artificial para que a gente tenha muitos produtos de tecnologia.
+
+
+Isso não significa abrir mão de regular, é colocar risco para todo mundo, não é sobre isso, mas é sobre a balança. A gente pensou bastante na proteção, mas a gente não pensou nas oportunidades. E aí, eu encerro, gente, falando com vocês da consulta do processo de ar que é o marco civil da internet e o paralelo que a gente pode fazer com o marco civil da internet.
+
+
+Deixa eu parar aqui o compartilhamento. Para pensar o seguinte, o que vocês estão fazendo aqui no desafio é como usar a tecnologia para que as pessoas tenham uma estesão de participar na democracia. Porque se você mandar uma sugestão e ela for aceita, você fica feliz. 
+
+
+Se você mandar uma sugestão e ninguém sequer te responder, você fica puto. E as pessoas andam muito putas com a democracia porque é muito difícil do Estado, do governo, das empresas, de todo mundo escutar a pessoa singular. É aí que vai entrar a tecnologia para a gente poder sistematizar, para a gente poder acelerar, para a gente poder dar mais valor para essas vozes que chegam por aí. 
+
+
+Inclusive, o Brasil tem o site participa.br Esse é o maior portal de consulta do governo no mundo todo. Ele começa com um projeto de governo aberto. Eu era o auditor, fiz a auditoria desse projeto.
+
+
+Ele é maravilhoso. Então, toda vez que o executivo queria colocar lá um projeto de lei para consulta, ele colocava no participa.br. Tinha projeto da Anvisa que tinha sobre como colocar label em produtos modificados geneticamente, que teve mais de 1.500 contribuições de pessoas anônimas. Foi muito legal.
+
+
+O Legislativo Federal tem portais também, tem o e-cidadania, tem o e-participação, mas eles estão bastante em desuso. O participa.br ainda é utilizado. Então, a gente tem algumas tecnologias, os outros países têm não.
+
+
+Inclusive, tem um paper muito legal que saiu sobre o participa.br, é da autora Ricardo Popp e outra pessoa, onde eles falam da experiência de uso de inteligência artificial para sistematizar consultas que estavam lá. Então, a gente vai ter agora um tempo para dúvidas, para perguntas. Vou adorar escutar de vocês.
+
+
+Gi, acho que o desafio deles é muito importante. Então, aquele modelo que vai ganhar, aquele piloto que vai no final, pelos critérios ali que vocês colocaram, esse é um piloto que faz uma grande contribuição para a democracia e tanto para o resto. Com certeza, com certeza, pessoal.
+
+
+E aí, vamos colocar aqui perguntas, já vão colocando suas perguntas no chat, e a gente já vai liberando aqui para o público.
+
+
+Nossa, de uma maneira super objetiva. Isso sim, que você trouxe temas tão profundos, né? E falando sobre uma dor que está atual, um contexto. Então, obrigada de coração. 
+
+
+Nossa, foi uma aula assim que eu falei. Nossa, gente, muito rápida e super objetiva, pessoal. De um tema que a gente precisa estar atento.
+
+
+E acho que é por isso que a gente trouxe esse tema como relevância, né? Para que cada vez mais a gente crie soluções que possam deixar a população mais clara e com menos burocracia daquilo que está acontecendo. Para elas poderem atuar muito mais. E terem ações muito mais assertivas e diretivas de questões que se referem à nossa própria vida.
+
+
+Boa, pessoal. Então, está rolando alguns comentários aqui, mas não necessariamente dúvidas. Eu ia falar assim para vocês, talvez, quiserem mandar dúvidas.
+
+
+Porque aí a gente tenta criar aqui um momento de perguntas e respostas para a gente conseguir aproveitar o máximo possível aqui do tempo do Fábio. Até, Fábio, queria... Assim, vou pôr aqui de novo o tema. Queria ter o... Assim, vou te jogar na fogueira aqui, né? Se fosse você dentro de uma maratona como essa, diante dessa temática, qual é a tua visão? Pensando... Você falou do Participa, do Participa BR, mas qual é a tua... Eu acho que tem muitas formas de vocês atuarem.
+
+
+Por exemplo, aquele projeto que eu falei, 2016, se chama Mudamos. Ele era um aplicativo com assinatura eletrônica que funcionava em blockchain. Para assinar projetos de lei de iniciativa popular.
+
+
+Então, a gente tinha uma metodologia para as pessoas fazerem um projeto de lei. Aí, eles colocavam lá e reuniam assinaturas. O PL que teve mais assinaturas foi o Movimento Transparência Partidária, que teve 150 mil assinaturas.
+
+
+No federal, a gente não chegou a fazer o mínimo, que é mais de 2 milhões. Mas no estadual e no municipal, sim. Algumas prefeituras, inclusive, adotaram o Mudamos.
+
+
+Hoje, ele está descontinuado, porque tem muita gente fazendo, vocês, inclusive. Mas dá uma ideia. Quando a gente lançou o Mudamos, eu não lancei, tá? Eu comentei com alguém, e essa pessoa era influenciadora.
+
+
+Ela ligou a live e falou, gente, acabei de saber não sei o quê, não sei o quê, não sei o quê. Mudamos, blá, blá, blá. Moral da história, já tinha o site, mas tinha só o site.
+
+
+Não tinha, sabe? Tinha um botão para download, mas não tinha nenhuma lei lá dentro. Então, por isso que eu não tinha lançado. Eu recebi, no final de semana, 7 mil e-mails.
+
+
+Isso era em 2016. Era um momento em que as pessoas queriam muito participar do governo. Participar das decisões.
+
+
+Elas queriam entrar no parlamento. E eu recebi, respondi a todos, inclusive a um caminhoneiro que eu fiz questão de ligar. Porque se você consegue atingir uma pessoa que está lá, dirigindo um caminhão igual o meu tio, e ele fala, quero participar da democracia, eu tenho que falar com ele.
+
+
+Exato. Então, a Constituição, ela permite que as pessoas façam projetos de leis e submetam nas cidades, inclusive. Existem plebiscitos. 
+
+
+Várias cidades têm mecanismos de plebiscitos. Existe social listening. Você pode ver o que as pessoas estão falando, resumir e sistematizar.
+
+
+Existem plataformas de pressão, como a Vast, que vão, sabe, fazer um tirão de e-mails, e aí falar 5 milhões de pessoas se preocupam com isso. Existem ferramentas que fazem escuta de pessoas no WhatsApp. Pessoas que não conseguem escrever ou que não se sentem confortáveis de escrever.
+
+
+Então, elas ajudam a traduzir o que as pessoas estão falando para o que está acontecendo. Tem ferramentas que vão, sabe, não falar com palavras, vão falar com imagens, vão falar com outras coisas. É muito amplo, Rodrigo, o que dá para eles fazerem.
+
+
+Eu diria, vejam iniciativas que vocês gostam. Se forem procurar um lugar, tem uma coisa que se chama OGP, Open Government Partnership, ou Parceria de Governo Aberto no Brasil. Eu fui o relator da OGP durante 6 anos aqui no Brasil.
+
+
+Lá tem uma porrada de soluções participativas, porque é a grande aliança global por governo aberto. Então, muita coisa tem lá. E subam nome de gigantes mesmo.
+
+
+Vocês estão trabalhando num país que muita gente fez muita coisa legal. Show. Tem uma pergunta aqui, vou colocar até aqui na tela.
+
+
+De que forma a PL 2338 tem considerado a participação da população no processo de regulamentação da AI no Brasil? Aí é uma developer. Não muito. Por quê? Porque é um processo que está isolado no Brasil.
+
+
+Para você participar, você precisa ser convidado a participar da audiência pública. Então, ali já é uma barreira. 74% das pessoas que participaram são advogados.
+
+
+Menos de 10% são no mercado. Então, houve uma grande dificuldade. Eles tentaram, mas fazer com audiência pública é super limitado.
+
+
+A câmera está mais aberta, fazendo muito mais audiências, mas é transmitido pela internet. Vocês podem me ver o que eu falei. Mas não é legal de participar.
+
+
+Não é legal de você dar a sua opinião. Então, é uma discussão que está muito entre governo e empresas. E que a sociedade civil fica com dificuldade de participar.
+
+
+Por isso que a gente fez o que queremos da IA. Que era uma consulta pública. E lá as pessoas podiam colocar.
+
+
+O que a gente fez com isso que colocaram? A gente pensou, como isso aqui funciona junto? E aí, um dos governos falou, queremos uma lei de IA. A gente falou, temos. E aí, em parceria, a gente sugeriu a lei de inteligência artificial de Goiás que participou.
+
+
+Essa sim teve participação popular. Embora tenham sido 500 pessoas que participaram. 220 milhões de pessoas é menos.
+
+
+Mas eu acho que é isso. É possível pressionar. É importante falar sobre isso.
+
+
+Falar com outras pessoas. Alertar empresas. Possivelmente, não vai dar tempo de você participar.
+
+
+Depois você vai participar sentando chateada e reclamando. Mas a M Developer, infelizmente, nesse processo, ele foi bem o que a gente chama de processo de elite. Tomadores de decisão de elites foram os que participaram.
+
+
+Show. Tem mais uma pergunta aqui. A Maísa, pode falar um pouco mais sobre as adaptações para o Brasil em relação ao custo da adaptação da compliance? Maísa, ótima pergunta.
+
+
+Compliance é custo. Quando você tem um produto, você vai ter que investir em adequar-se ao que o consumidor quer. Assim é que você vai ganhar mercado.
+
+
+Então, o compliance não está na solução. Ele é um custo que você vai ter para desenvolver. O que a gente fez? A gente pegou quase que as mesmas obrigações que a gente tinha lá, mas a gente cresceu elas em volume e em complexidade.
+
+
+Como eu coloco mais casos em alto risco, trabalhou que educação e saúde está ferrado. Você vai cair lá no alto risco. Eu acabo aumentando o custo para todos esses.
+
+
+Você vai pegar as 68 obrigações e se bobear. Se você vai fazer soluções para o governo ou dentro do governo, outras coisas. Se você vai usar a IA gerativa, outras coisas.
+
+
+Então, quanto mais top a gente está, quanto mais atual a gente tiver, maior a carga de contribuições. Há uma previsão dizendo que no futuro eles vão baixar a barra para quem está começando, mas a gente sabe que isso leva dois anos. E dois anos no Brasil, pelo menos, é muito tempo nesse mercado de IA.
+
+
+Então, o que a gente fala é, sabe? Libera da lei quem tem menos de três anos de vida. Libera a startup pequena. Libera aquela coisa que acabou de sair da universidade até ela se firmar no mercado.
+
+
+Dá uma relaxada. Pega o grande ou quando algo ficar grande, mas não coloca toda a IA, senão você vai pegar e colocar muitas obrigações no que tem ali. E aí, Maísa, quem vai te cobrar isso é o seu investidor.
+
+
+Porque para você desenvolver essa solução depois, você vai precisar achar dinheiro. Dinheiro tem um custo. Quanto maior o risco, menor o dinheiro e maior o custo dele.
+
+
+Então, se você tem 68 obrigações para fazer, quem vai te financiar vai falar, cadê aquele relatório de como é que você atende 68 obrigações? Se você não tiver e possivelmente você não vai ter ou vai ter um ruim, ele vai falar, bom, então em vez de 30%, eu quero 40%, porque aqui no meu ROI não está tão interessante para você. Ou vão falar o seguinte, ah, eu não vou investir em educação e saúde. Desculpa, é um alto risco.
+
+
+Eu vou investir em outras coisas, porque ele vai para o lugar de menos risco. Então, eu acho, Maísa, que o que vai acontecer, que a gente está vendo, é uma grande peso nas pequenas e menores empresas e startups. O Patrick colocou uma outra aqui também.
+
+
+Como a Lei 2338 pretende mudar o uso da EA no Brasil? Essa é uma pergunta. E se você acha que devíamos adotar um outro tipo de modelo? Patrick, eu vou te dar as duas versões. A minha versão é sim, reseta, vamos fazer diferente.
+
+
+Mas existem muitas pessoas que gostam da lei atual, e aí eu vou defender elas, porque elas acham que tem direitos importantes lá, que tem mecanismos diferentes. Então, elas vão falar, muitas vezes, de simplificar o modelo atual e não em mudar tudo. Eu sou pragmático, eu não acho que vai mudar tudo.
+
+
+O negócio que restou é simplificar e colocar ideia nova. Então, por exemplo, Patrick, a gente quer colocar na lei embaixada de dados, que é uma possibilidade de outro país ir aqui para um data center, abrir uma embaixada, não transferir dados para fora do país e processar ali nos data servers que a gente tem dentro do governo, fora do governo, aonde for. A gente também quer a cooperativa de dados, que é uma ideia de você ter esses intermediários que enriquecem dados para revender depois, esses intermediários do processo.
+
+
+Como é que a lei pretende mudar o uso de IA no Brasil? IA vai ficar burocrática. IA vai virar, como esse modelo guarda chuva, toda IA cabe ali, a IA vai ficar cheia de obrigações. Não tem muito como escapar disso.
+
+
+Deveríamos adotar um outro tipo de modelo? A gente pode fazer como o Japão, que fez uma consulta grande, mas pensou, o que a gente realmente quer regular? Copyright, direito autoral. E aí fez uma regulação só sobre isso. Ou a gente pode pensar no modelo que está pensando, pensado na Inglaterra ou em outros lugares, que é a Singapura, que é de agilidade.
+
+
+Então você, em vez de dizer qual que é a regra, você fala, primeiro eu escuto, depois eu ponho a regra. No Reino Unido, por exemplo, eles vão falar, olha, faz o seguinte, opera por dois anos e aí eu te dou uma classificação de risco. Essa é uma sistema mais ágil ali.
+
+
+Singapura vai falar mais ainda. Vem para o pai, vamos fazer dentro do Estado e aí essas soluções, a gente cria uma regra para elas. Fizeram um sistema financeiro, fizeram isso com várias coisas.
+
+
+Então, Patrick, tem sim muita ideia para a gente fazer. E lembra que é o seguinte, nem a União Europeia copiaria a União Europeia hoje. Eles mesmos estão mudando a regulação porque eles discordam deles.
+
+
+Então, temos que olhar para outros caminhos. Vai olhar para o Chile também. Show.
+
+
+Mais alguma pergunta, pessoal? Ah, tem aqui, espera aí. Qual o limite da AI dentro da decisão democrática? Futuramente, você acredita que a AI pode se candidatar como... poderão se candidatar... AIs podem se candidatar como políticos propondo leis? Felipe, excelente. Existe um paper aí que é o Estado agêntico, que vai imaginar qual é a função do Estado se a gente conseguir colocar ali agentes autônomos fazendo coisas.
+
+
+E você deve ter falado, ouvido falar, na Albânia, da ministra de IA. Tem um vídeo meu aí sobre isso, explicando melhor. Mas a Albânia fez uma IA que é ministra.
+
+
+Não é tipo ministra. Ela é ministra. Ela fala, escreve leis, ela toma decisões.
+
+
+E ela foi colocada nesse sistema de compras públicas. Porque eles entenderam que o algoritmo humano, aquela máquina humana, estava muito corrupta. E eles precisavam de alguém que fizesse análises por dados.
+
+
+Foi por isso que eles colocaram lá. Foi a primeira do mundo. O que eu acho, Felipe? Eu acho que ao invés de a gente pensar em substituir o presidente, o ministro, o deputado, tem tanta coisa que falta representação.
+
+
+Então, por exemplo, existe o vice-presidente da Rocinha? Ou do Vidigal? Não. Poxa, aí tem um super IA agente pra fazer. Tem aí um deputado que vai cuidar das pessoas de maior idade com influência de saúde? Não.
+
+
+Cria esse deputado virtual pra pensar nelas. Tem alguma parte do governo de participação que está engasgada, que não consegue fazer? Coloca pra lá. Então, Felipe, se você olhar aonde o Estado não consegue atuar hoje, ali tem tanta coisa pra ser feita.
+
+
+Tem que fazer com responsabilidade, com cuidados. Agentes ainda funcionam super precariamente em termos de replicabilidade. Mas eu imagino, sim, Felipe, que a gente vá ter mais e mais agentes que vão ser do Estado ou que vão ser políticos ou que vão fazer.
+
+
+Mas eu não acho que eles vão substituir o que a gente conhece, não. Eu acho que eles vão adicionar. Maravilha.
+
+
+Acho que é isso, né, pessoal? A gente deu uma estouradinha aqui. Ah, o Patrick mandou mais uma. Essa lei prejudica a adoção de IA no Brasil, como carros autônomos e outros processos de automação? O Patrick vai ser bem rápido.
+
+
+Sim, estão ferrados. Carros autônomos são alto risco, são super proibidos. Em vários setores.
+
+
+E aí, imagina canaleta de ônibus. Ali é um ótimo lugar pro carro autônomo, de mercadorias. Sabe? Dá pra trafegar 40 por hora e você vai liberar a cidade.
+
+
+Ou ainda em portos, ou minas, lugares que são, assim, ótimos pra veículos autônomos. Então, quando a gente pensa no carro dirigido na rua, igual aos Estados Unidos ou na China, eu acho difícil da gente ter isso aqui. Mas outros lugares poderiam ser explorados.
+
+
+Se você for pro agro, você vai achar ali bastante veículos autônomos de sucesso. Eu vou colocar mais essas duas e a gente finaliza, tá? A Gabi... Deixa eu ver se foi aqui. A Gabi perguntou, a lei foi criada, mas tem ocorrido alguma fiscalização pra garantia do atendimento à lei? Se sim, se você sabe de que forma? Gabriela, a lei ainda está em discussão, então ela não foi criada ainda, mas ela tem um monte de mecanismo pra fiscalização.
+
+
+O que eu posso dizer é que não vai funcionar. Por quê? Porque quando a gente sabe, olha, as outras agências e as outras leis que a gente criou, a gente sabe que leva 10 anos pra você ter um compliance realmente ocorrendo. Então, durante... Por mais que você fala, não pode, existe aí uma cultura de aprendizado.
+
+
+É claro que a lei tem esse fenômeno de mandar todo mundo pra um lugar, então em algum momento a gente vai estar melhorando, mas é muito difícil de fazer. Mas tem penalidade, tem multa, tem outras coisas que podem acontecer lá. Mas o CAD, que é, digamos assim, a autoridade de concorrência, é menos de 10... Um em 10 casos ele consegue aplicar uma multa.
+
+
+Em geral, o que ele faz é tentar medir as partes. E aí tem uma última pergunta aqui do Igor Ferreira. O PL traz a NPD como principal ator nesse contexto de regulação ou corre o risco de sobreposição da competência? E... Não sei o que é isso.
+
+
+O que é isso? OB... Ah, do PL já nascer... É, boa. Igor, a resposta é sim com asterisco, certo? Existe um conselhão, um escritórião que é o CIA, a NPD preside ele, em caso de dúvida, a palavra dela. Quando o projeto começou no Senado, pela Comissão de Juristas, regulação setorial nem aparecia.
+
+
+Tinha quatro menções que era, faz o que eu mando. Hoje você já tem pelo menos uma paridade de questões setoriais com a NPD. Mas... Em muito, a NPD vai ser a grande autoridade a fazer.
+
+
+E aí, um dos problemas centrais, Igor, é o seguinte. Quando não houver dados pessoais. Vamos supor, por exemplo, que você está trabalhando com projeções de clima.
+
+
+Não tem dado pessoal nenhum. Qualidade da mata. Qualidade do desmatamento.
+
+
+Mitigação de efeitos climáticos. Não tem nada de dados pessoais. O que a NPD vai saber sobre isso? Porque não tem autoridade de clima e outras coisas.
+
+
+Não tem autoridade de tempo, clima. Então, eu acho que... É bom que a NPD cresça. É bom que a NPD, sabe? Ela tenha também essas atividades.
+
+
+Mas eles foram com tanta fome ao porte que eu acho que eles estão levando todo mundo para baixo. Então, a minha última audiência na Câmara foi justamente sobre isso. Por que a NPD, onde está, é um problema.
+
+
+Gente, muito, muito obrigada, Fábio. Muito obrigada. Eu acho que a gente encerrou com chave de ouro aqui.
+
+
+A gente teve conteúdos desde as nove da manhã até agora de extrema qualidade. Contexto nove da manhã. A gente apresentando o desafio e dando um bom contexto para a galera de tudo o que está... Se a gente se espera desse hackathon, do tema que a gente vai abordar.
+
+
+Entrou com as meninas depois, mais o João e mais o Cobre ali, dando uma aula, aprofundando muito mais no tema e agora você a brilhantando com um exemplo muito real de uma coisa que está acontecendo nesse exato momento, que vai impactar nossa vida e que muita gente não estava sabendo. A gente fez essa pesquisa durante os hackathons. O Roxo levantou a galera aqui.
+
+
+Levanta a mão quem está sabendo. Deu um pouco de contexto também. Poucas pessoas.
+
+
+Eram dois, três que levantavam de 70, 80 pessoas que tinham no presencial. De manhã, eu fiz uma pergunta. Acho que quatro pessoas de... Acho que 50 que tinham na live também levantaram que estavam sabendo.
+
+
+E algumas eu sabia que era porque estavam lá nos hackathons presenciais também. Então, assim, é uma coisa super importante. O tema é um tema extremamente relevante.
+
+
+Como que a gente consegue gerar uma eficácia, criar soluções que vão apoiar a gente a ser mais assertivo, criar menos burocracia e ser mais assertivo nessa hora de opinar e de saber das coisas que estão acontecendo e que impactam profundamente a nossa vida. Depois que aconteceu, não adianta a gente descobrir. Aconteceu, aconteceu, aí é isso que você falou.
+
+
+É dois anos, sei lá quanto tempo até as coisas rolarem e a gente conseguir, se é que consegue, fazer uma movimentação. A gente está se antecipar cada vez mais. Isso é cidadania.
+
+
+Então, é um tema extremamente relevante. Muito obrigada de verdade. Pessoal, muito obrigada a todos vocês que ficaram aqui na live. 
+
+
+A gente encerra o nosso dia de contexto de hoje. Acho que vale o lembrete. Pessoal, se movimentem.
+
+
+A gente está no grupo ali. Se já tem seu time, comecem a fazer pesquisa. Lembrem do que a Dani falou. 
+
+
+Problema é o maior, foquem no problema agora. Mergulhem profundamente no problema, façam pesquisa, peguem essas informações. Cobra, dê o link de acesso. 
+
+
+A gente vai disponibilizar aqui também as informações que o Fábio deu. Tem um monte de conteúdos que a gente está oferecendo pra vocês aqui. Pesquisem, se aprofundem mais.
+
+
+Estruturem bem o problema, tenham muito claro o problema pra depois que vocês pensarem a solução. Vocês tendo muito claro o problema, a solução ela é muito mais rápida. Mas se vocês pensam direto na solução, vocês vão ficar querendo construir ou inventar um problema que talvez nem exista pra justificar a solução que vocês se apaixonaram de cara, tá? Então, foquem nisso.
+
+
+A gente consegue, continua se falando aqui pelo grupo. Amanhã é dia de submissão dos grupos, né? A gente manda o link do formulário pra vocês submeterem os times de vocês e vocês têm até as 23h59 de amanhã pra vocês fazerem essa submissão. Gente, muito obrigado mais uma vez. 
+
+
+Fábio, Rô, tem alguma fala final aí? Não, acho que no geral, pessoal Desculpa, Fábio, pode falar. Não, Rodrigo, eu só queria falar bom trabalho e quero ver o resultado final. Só isso. 
+
+
+É isso aí. Pra sua final aí, mas que bom que você já se adiantou. Fala aí, Rô.
+
+
+Boa. No geral, galera, acho que é focar agora tem bastante contexto, bastante informação acho que assim, tanto na fala da Sélia tem muita referência, né? Pesquisem sobre essas referências olhem benchmark internacional gostei muito que o Fábio notou-se um contexto de Brasil ele trouxe um contexto olhando pro mundo então acho que entender esses movimentos globais também influenciam aqui no que acontece dentro do Brasil e bora trabalhar. É isso aí.
+
+
+É isso. Valeu, pessoal. Um beijo e nos falamos aí continuando no grupo.
+
+
+Muito obrigada, Fábio. Tchau, tchau. Graças a Deus.
