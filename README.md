@@ -26,7 +26,7 @@ Um assistente conversacional no **Telegram** que:
 ### Para Usuários Finais
 
 1. **Abra o Telegram** no seu celular ou computador
-2. **Procure pelo bot**: `@EloBot` (ou use o link que compartilhamos)
+2. **Procure pelo bot**: `@ELO_ELDERLY_BOT` (ou use o link que compartilhamos)
 3. **Inicie a conversa**: Clique em "Start" ou envie `/start`
 4. **Interaja**:
    - 📝 Mande uma mensagem de texto
@@ -68,13 +68,12 @@ ELO: [Responde com áudio] "Oi! Tira uma foto dessa carta e me manda que eu leio
 
 Envie este link para seus colegas:
 ```
-https://t.me/SeuBotUsername
+https://t.me/ELO_ELDERLY_BOT
 ```
-*(Substitua `SeuBotUsername` pelo username que você escolheu no @BotFather)*
 
 ### Opção 2: Username
 
-Peça para procurarem por: `@SeuBotUsername` no Telegram
+Peça para procurarem por: `@ELO_ELDERLY_BOT` no Telegram
 
 ### Opção 3: QR Code
 
