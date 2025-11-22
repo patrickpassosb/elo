@@ -4,7 +4,10 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
-from .storage import session_store
+
+from config import settings
+from logging_config import logger
+from storage import session_store
 
 # Store for session histories is now handled by SessionStore
 
@@ -12,8 +15,12 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
     """Retrieve or create a ChatMessageHistory for a given session using SessionStore."""
     return session_store.get_history(session_id)
 
-# Initialize LLM
-llm = ChatOpenAI(model="gpt-4o", temperature=0.7)
+# Initialize LLM with settings
+llm = ChatOpenAI(
+    model=settings.llm_model,
+    temperature=settings.llm_temperature,
+    api_key=settings.openai_api_key
+)
 
 # System Prompt - "Neto Digital"
 system_prompt = """
@@ -48,12 +55,17 @@ with_message_history = RunnableWithMessageHistory(
     history_messages_key="history",
 )
 
-def process_message(session_id: str, user_input: str):
+async def process_message(session_id: str, user_input: str):
     """
-    Processes a message through the LangChain chain with memory.
+    Processes a message through the LangChain chain with memory asynchronously.
     """
-    response = with_message_history.invoke(
-        {"input": user_input},
-        config={"configurable": {"session_id": session_id}},
-    )
-    return response.content
+    logger.info(f"Processing message for session {session_id}")
+    try:
+        response = await with_message_history.ainvoke(
+            {"input": user_input},
+            config={"configurable": {"session_id": session_id}},
+        )
+        return response.content
+    except Exception as e:
+        logger.error(f"Error processing message for session {session_id}: {e}", exc_info=True)
+        return "Desculpe, tive um problema para pensar na resposta. Pode tentar de novo?"

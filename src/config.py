@@ -9,7 +9,7 @@ import os
 from typing import Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import load_dotenv
-from .logging_config import logger
+from logging_config import logger
 
 # Load environment variables
 load_dotenv()

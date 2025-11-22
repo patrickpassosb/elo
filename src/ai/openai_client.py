@@ -1,56 +1,42 @@
-import os
-import requests
 import base64
-import logging
-import tempfile
-from contextlib import contextmanager
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
-from .config import settings
-from .logging_config import logger
-from openai import OpenAI
+from openai import OpenAI, APIError as OpenAIAPIError
+
+from config import settings
+from logging_config import logger
+from exceptions import APIError
+from utils.media import temporary_file
 
 # Initialize OpenAI client with validated API key
 client = OpenAI(api_key=settings.openai_api_key)
 
-@contextmanager
-def temporary_file(suffix: str = "") -> str:
-    """Create a temporary file that is automatically cleaned up.
-    Returns the file path as a string.
-    """
-    fd, path = tempfile.mkstemp(suffix=suffix)
-    os.close(fd)  # Close the low‑level descriptor
-    try:
-        yield path
-    finally:
+def _handle_api_error(func):
+    """Decorator to wrap API calls and convert exceptions to APIError."""
+    def wrapper(*args, **kwargs):
         try:
-            os.remove(path)
-            logger.debug(f"Temporary file removed: {path}")
-        except OSError:
-            pass
+            return func(*args, **kwargs)
+        except OpenAIAPIError as e:
+            logger.error(f"OpenAI API error in {func.__name__}: {e}")
+            raise APIError(f"Error in {func.__name__}: {str(e)}") from e
+        except Exception as e:
+            logger.error(f"Unexpected error in {func.__name__}: {e}")
+            raise APIError(f"Unexpected error in {func.__name__}: {str(e)}") from e
+    return wrapper
 
-@retry(retry=retry_if_exception_type(requests.RequestException),
+@retry(retry=retry_if_exception_type(APIError),
        wait=wait_exponential(multiplier=1, min=2, max=10),
        stop=stop_after_attempt(3),
        reraise=True)
-def download_media(media_url: str, file_extension: str) -> str:
-    """Download media from a URL and save it to a temporary file.
-    Returns the temporary file path. Raises on HTTP errors.
-    """
-    account_sid = os.getenv("TWILIO_ACCOUNT_SID")
-    auth_token = os.getenv("TWILIO_AUTH_TOKEN")
-    response = requests.get(media_url, auth=(account_sid, auth_token), timeout=10)
-    response.raise_for_status()
-    with temporary_file(suffix=f".{file_extension}") as tmp_path:
-        with open(tmp_path, "wb") as f:
-            f.write(response.content)
-        return tmp_path
-
-@retry(retry=retry_if_exception_type(Exception),
-       wait=wait_exponential(multiplier=1, min=2, max=10),
-       stop=stop_after_attempt(3),
-       reraise=True)
+@_handle_api_error
 def transcribe_audio(file_path: str) -> str:
-    """Transcribe audio using OpenAI Whisper (whisper-1)."""
+    """Transcribe audio using OpenAI Whisper (whisper-1).
+    
+    Args:
+        file_path (str): Path to the audio file.
+        
+    Returns:
+        str: The transcribed text.
+    """
     with open(file_path, "rb") as audio_file:
         transcription = client.audio.transcriptions.create(
             model=settings.whisper_model,
@@ -58,36 +44,58 @@ def transcribe_audio(file_path: str) -> str:
         )
     return transcription.text
 
-@retry(retry=retry_if_exception_type(Exception),
+@retry(retry=retry_if_exception_type(APIError),
        wait=wait_exponential(multiplier=1, min=2, max=10),
        stop=stop_after_attempt(3),
        reraise=True)
+@_handle_api_error
 def text_to_speech(text: str) -> str:
-    """Convert text to speech using OpenAI TTS (tts-1)."""
+    """Convert text to speech using OpenAI TTS (tts-1).
+    
+    Args:
+        text (str): The text to convert.
+        
+    Returns:
+        str: Path to the generated audio file.
+    """
     response = client.audio.speech.create(
         model=settings.tts_model,
         voice=settings.tts_voice,
         input=text
     )
-    with temporary_file(suffix=".mp3") as tmp_path:
-        response.stream_to_file(tmp_path)
-        return tmp_path
+    # Here temporary_file is used correctly as a context manager because stream_to_file writes to it.
+    # But wait, if temporary_file deletes on exit, we have the same problem!
+    # The original code returned the path.
+    # I need to fix this too.
+    
+    import tempfile
+    import os
+    
+    fd, path = tempfile.mkstemp(suffix=".mp3")
+    os.close(fd)
+    
+    try:
+        response.stream_to_file(path)
+        return path
+    except Exception as e:
+        if os.path.exists(path):
+            os.remove(path)
+        raise e
 
-def cleanup_file(file_path: str) -> None:
-    """Remove a temporary file if it exists (fallback)."""
-    if os.path.exists(file_path):
-        try:
-            os.remove(file_path)
-            logger.debug(f"Removed temporary file: {file_path}")
-        except Exception as e:
-            logger.warning(f"Failed to remove temporary file {file_path}: {e}")
-
-@retry(retry=retry_if_exception_type(Exception),
+@retry(retry=retry_if_exception_type(APIError),
        wait=wait_exponential(multiplier=1, min=2, max=10),
        stop=stop_after_attempt(3),
        reraise=True)
+@_handle_api_error
 def describe_image(image_url: str) -> str:
-    """Describe an image from a URL using GPT-4o vision model."""
+    """Describe an image from a URL using GPT-4o vision model.
+    
+    Args:
+        image_url (str): URL of the image.
+        
+    Returns:
+        str: Description of the image.
+    """
     response = client.chat.completions.create(
         model=settings.llm_model,
         messages=[
@@ -103,12 +111,20 @@ def describe_image(image_url: str) -> str:
     )
     return response.choices[0].message.content
 
-@retry(retry=retry_if_exception_type(Exception),
+@retry(retry=retry_if_exception_type(APIError),
        wait=wait_exponential(multiplier=1, min=2, max=10),
        stop=stop_after_attempt(3),
        reraise=True)
+@_handle_api_error
 def describe_image_local(image_path: str) -> str:
-    """Describe a local image file using GPT-4o vision model."""
+    """Describe a local image file using GPT-4o vision model.
+    
+    Args:
+        image_path (str): Path to the local image file.
+        
+    Returns:
+        str: Description of the image.
+    """
     with open(image_path, "rb") as image_file:
         base64_image = base64.b64encode(image_file.read()).decode('utf-8')
     response = client.chat.completions.create(

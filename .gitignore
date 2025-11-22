@@ -32,6 +32,8 @@ temp_*
 .DS_Store
 Thumbs.db
 
-# Test files
-test_bot.py
-test_*.py
+# Logs and test output
+*.log
+test_output.txt
+.pytest_cache/
+

@@ -1,20 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "elo"
 version = "0.1.0"
-description = "Add your description here"
+description = "ELO - Neto Digital Chatbot"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
-    "fastapi>=0.121.3",
-    "langchain>=1.0.8",
-    "langchain-community>=0.4.1",
-    "langchain-openai>=1.0.3",
+    "fastapi>=0.115.12",
+    "langchain-community>=0.3.21",
+    "langchain-core>=0.3.35",
+    "langchain-openai>=0.3.12",
+    "langchain>=0.3.21",
     "openai>=2.8.1",
+    "pydantic-settings>=2.0.0",
     "pyngrok>=7.5.0",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
     "python-dotenv>=1.2.1",
     "python-multipart>=0.0.20",
     "python-telegram-bot>=21.0",
     "requests>=2.32.5",
+    "tenacity>=9.0.0",
     "twilio>=9.8.7",
     "uvicorn>=0.38.0",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
